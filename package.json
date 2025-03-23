@@ -1,0 +1,32 @@
+{
+  "name": "splatoon-weapon-randimization",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "battle": "tsx src/main.ts",
+    "test": "npx tsc --noEmit && npx eslint . --ext .ts",
+    "format": "npx eslint . --fix --ext .ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hir-247-30/splatoon-weapon-randimization.git"
+  },
+  "author": "hir-247-30",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hir-247-30/splatoon-weapon-randimization/issues"
+  },
+  "homepage": "https://github.com/hir-247-30/splatoon-weapon-randimization#readme",
+  "description": "",
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.8",
+    "@types/node": "^22.13.11",
+    "eslint": "^9.23.0",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "tsx": "^4.19.3",
+    "typescript-eslint": "^8.27.0"
+  }
+}

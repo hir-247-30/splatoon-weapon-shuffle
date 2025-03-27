@@ -15,6 +15,13 @@
       "noPropertyAccessFromIndexSignature": true,
       "allowUnusedLabels": false,
       "allowUnreachableCode": false,
+      "paths": {
+        "@common/*": ["./src/common/*"],
+        "@entities/*": ["./src/entities/*"],
+        "@models/*": ["./src/models/*"],
+        "@repositories/*": ["./src/repositories/*"],
+        "@services/*": ["./src/services/*"],
+      },
     },
     "include": ["./src/**/*.ts"],
   }

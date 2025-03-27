@@ -1,10 +1,6 @@
 import { getWeapons } from '@repositories/weaponRepository';
-import { WeaponEntity } from '@common/types';
+import { WeaponEntity } from '@entities/weaponEntity';
 
-export function claimWeapons (): WeaponEntity[] {
+export function claimWeapons (): WeaponEntity {
     return getWeapons();
-}
-
-export function selectWeapons (weapons: WeaponEntity[]): WeaponEntity[] {
-    return weapons;
 }

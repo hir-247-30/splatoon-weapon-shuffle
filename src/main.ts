@@ -1,14 +1,13 @@
 import  dotenv from 'dotenv';
-import { claimWeapons, selectWeapons } from '@services/weaponService';
+import { claimWeapons } from '@services/weaponService';
 import { reportByDiscord } from '@services/reportService';
-import { WeaponEntity } from '@common/types';
+import { WeaponEntity } from '@entities/weaponEntity';
 
 dotenv.config({ path: '.env' });
 
 function main (): void {
-    const weapons: WeaponEntity[] = claimWeapons();
-    const selectedWeapons: WeaponEntity[] = selectWeapons(weapons);
-    reportByDiscord(selectedWeapons);
+    const weaponEntity: WeaponEntity = claimWeapons();
+    reportByDiscord(weaponEntity);
 }
 
 main();

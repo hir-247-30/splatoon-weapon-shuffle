@@ -1,8 +1,8 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { WeaponEntity } from '@common/types';
+import { WeaponEntity } from '@entities/weaponEntity';
 
-export function reportByDiscord (weapons: WeaponEntity[]): void {
-    const content = buildMessage(weapons);
+export function reportByDiscord (weaponEntity: WeaponEntity): void {
+    const content = buildMessage(weaponEntity);
 
     const requestOptions = {
         url    : process.env['DISCORD_WEBHOOK_URL']!,
@@ -14,9 +14,8 @@ export function reportByDiscord (weapons: WeaponEntity[]): void {
     axiosRequest<void | string>(requestOptions);
 }
 
-function buildMessage (weapons: WeaponEntity[]): string {
-    const weaponNames: string[] = weapons.map(weapon => weapon.name );
-    return `選ばれたのは${weaponNames.join('、')}だ！`;
+function buildMessage (weaponEntity: WeaponEntity): string {
+    return `選ばれたのは${weaponEntity.getAll().map(v => v.name).join('、')}だ！`;
 }
 
 async function axiosRequest<T> (requestOptions: AxiosRequestConfig): Promise<T | void> {

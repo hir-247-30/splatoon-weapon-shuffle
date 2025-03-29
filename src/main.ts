@@ -21,8 +21,8 @@ function main (): void {
         return{
             player_name: playerName,
             weapon_name: weapon.name,
-        }
-    })
+        };
+    });
     reportByDiscordMock(reportPlayerWeapon);
 }
 

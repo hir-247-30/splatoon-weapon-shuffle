@@ -39,7 +39,7 @@ const getRandomWeaponPair = (): [Weapon, Weapon] => {
     if (Math.random() < 0.5) {
         return [secondWeapon, shortWeapon];
     }
-    return [shortWeapon, secondWeapon]
+    return [shortWeapon, secondWeapon];
 };
 
 export const getWeaponsByNumber = (num: number): Weapon[] => {

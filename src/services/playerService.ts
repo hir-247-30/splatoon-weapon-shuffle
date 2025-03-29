@@ -16,7 +16,7 @@ export function claimPlayerNames (): string[] {
     return playerNames;
 }
 
-export function claimPlayerNamesMock(): string[] {
+export function claimPlayerNamesMock (): string[] {
     // コマンドライン引数からプレイヤー名を取得
     const playerNames = process.argv.slice(2).filter(v => v !== '');
 

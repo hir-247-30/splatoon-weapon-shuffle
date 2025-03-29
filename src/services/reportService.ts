@@ -14,6 +14,10 @@ export function reportByDiscord (reports: Report[]): void {
     axiosRequest<void | string>(requestOptions);
 }
 
+export function reportByDiscordMock (reports: Report[]): void {
+    console.dir(reports, { depth: null });
+}
+
 function buildMessage (reports: Report[]): string {
     let message = 'ブキチョイス';
     reports.forEach(report => {

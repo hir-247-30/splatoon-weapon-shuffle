@@ -1,32 +1,29 @@
 import  dotenv from 'dotenv';
-import { claimPlayrerNames } from '@services/playerService';
-import { claimWeapons } from '@services/weaponService';
-import { reportByDiscord } from '@services/reportService';
-import { WeaponEntity } from '@entities/weaponEntity';
-import { shuffle, assertUndefined } from '@common/functions';
+import { claimPlayerNamesMock } from '@services/playerService';
+import {  reportByDiscordMock } from '@services/reportService';
+import { shuffle } from '@common/functions';
 import { Report } from '@common/types';
+import { getWeaponsByNumber } from './lib/choice';
 
 dotenv.config({ path: '.env' });
 
 function main (): void {
-    const playerNames: string[] = claimPlayrerNames();
-    const weaponEntity: WeaponEntity = claimWeapons();
+    const playerNames: string[] = claimPlayerNamesMock();
 
-    const weapons = weaponEntity.selectWeapon(playerNames.length);
     const shuffledPlayers = shuffle(playerNames);
+    const weapons = getWeaponsByNumber(shuffledPlayers.length);
 
-    const reportPlayerWeapon: Report[] = weapons.map((weapon, i) => {
-        const playerName = shuffledPlayers[i];
-
-        assertUndefined(playerName);
-
-        return {
+    const reportPlayerWeapon: Report[] = shuffledPlayers.map((playerName, index) => {
+        const weapon = weapons[index];
+        if (!weapon) {
+            throw new Error('武器が取得できませんでした');
+        }
+        return{
             player_name: playerName,
             weapon_name: weapon.name,
-        };
-    });
-    
-    reportByDiscord(reportPlayerWeapon);
+        }
+    })
+    reportByDiscordMock(reportPlayerWeapon);
 }
 
 main();

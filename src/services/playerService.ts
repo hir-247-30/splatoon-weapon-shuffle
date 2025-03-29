@@ -1,4 +1,4 @@
-export function claimPlayrerNames (): string[] {
+export function claimPlayerNames (): string[] {
     const undefinedPlayerNames = [
         process.env['PLAYER_NAME_1'],
         process.env['PLAYER_NAME_2'],

@@ -1,31 +1,28 @@
 import  dotenv from 'dotenv';
-import { claimPlayrerNames } from '@services/playerService';
-import { claimWeapons } from '@services/weaponService';
+import { claimPlayerNames } from '@services/playerService';
 import { reportByDiscord } from '@services/reportService';
-import { WeaponEntity } from '@entities/weaponEntity';
 import { shuffle, assertUndefined } from '@common/functions';
 import { Report } from '@common/types';
+import { getWeaponsByNumber } from '@lib/choice';
 
 dotenv.config({ path: '.env' });
 
 function main (): void {
-    const playerNames: string[] = claimPlayrerNames();
-    const weaponEntity: WeaponEntity = claimWeapons();
+    const playerNames: string[] = claimPlayerNames();
 
-    const weapons = weaponEntity.selectWeapon(playerNames.length);
     const shuffledPlayers = shuffle(playerNames);
+    const weapons = getWeaponsByNumber(shuffledPlayers.length);
 
-    const reportPlayerWeapon: Report[] = weapons.map((weapon, i) => {
-        const playerName = shuffledPlayers[i];
+    const reportPlayerWeapon: Report[] = shuffledPlayers.map((playerName, index) => {
+        const weapon = weapons[index];
 
-        assertUndefined(playerName);
+        assertUndefined(weapon);
 
-        return {
+        return{
             player_name: playerName,
             weapon_name: weapon.name,
         };
     });
-    
     reportByDiscord(reportPlayerWeapon);
 }
 

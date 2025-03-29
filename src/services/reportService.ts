@@ -1,8 +1,8 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { WeaponEntity } from '@entities/weaponEntity';
+import { Report } from '@common/types';
 
-export function reportByDiscord (weaponEntity: WeaponEntity): void {
-    const content = buildMessage(weaponEntity);
+export function reportByDiscord (reports: Report[]): void {
+    const content = buildMessage(reports);
 
     const requestOptions = {
         url    : process.env['DISCORD_WEBHOOK_URL']!,
@@ -14,8 +14,12 @@ export function reportByDiscord (weaponEntity: WeaponEntity): void {
     axiosRequest<void | string>(requestOptions);
 }
 
-function buildMessage (weaponEntity: WeaponEntity): string {
-    return `選ばれたのは${weaponEntity.getAll().map(v => v.name).join('、')}だ！`;
+function buildMessage (reports: Report[]): string {
+    let message = 'ブキチョイス';
+    reports.forEach(report => {
+        message += `\n${report.player_name}さんのブキは、「${report.weapon_name}」です`;
+    });
+    return message;
 }
 
 async function axiosRequest<T> (requestOptions: AxiosRequestConfig): Promise<T | void> {

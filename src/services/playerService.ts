@@ -15,14 +15,3 @@ export function claimPlayerNames (): string[] {
 
     return playerNames;
 }
-
-export function claimPlayerNamesMock (): string[] {
-    // コマンドライン引数からプレイヤー名を取得
-    const playerNames = process.argv.slice(2).filter(v => v !== '');
-
-    if (!playerNames.length) {
-        throw new Error('プレイヤーを1人以上登録してください');
-    }
-    
-    return playerNames;
-}

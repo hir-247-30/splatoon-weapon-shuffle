@@ -1,9 +1,13 @@
-import { WEAPON, Weapon } from "../const/weapons";
+import { WEAPON, Weapon } from "@const/weapons";
+import { chooseRandomly, assertUndefined } from '@common/functions';
 
 const getRandomWeapon = (): Weapon => {
-    // WEAPON の中からランダムに 1 つ選ぶ
-    const randomIndex = Math.floor(Math.random() * WEAPON.length);
-    return WEAPON[randomIndex]!;
+    // WEAPON の中からランダムに1つ選ぶ
+    const weapon = WEAPON[Math.floor(Math.random() * WEAPON.length)];
+
+    assertUndefined(weapon);
+
+    return weapon;
 };
 
 const getRandomWeaponPair = (): [Weapon, Weapon] => {
@@ -14,17 +18,16 @@ const getRandomWeaponPair = (): [Weapon, Weapon] => {
     const midLongWeapons = WEAPON.filter(w => w.range === 'MID' || w.range === 'LONG');
 
     if (shortRangeWeapons.length === 0 || midLongWeapons.length === 0) {
-        throw new Error("適切な武器が見つかりませんでした。");
+        throw new Error('適切な武器が見つかりませんでした。');
     }
 
-    // SHORT の武器をランダムに 1 つ取得
-    const shortWeapon = shortRangeWeapons[Math.floor(Math.random() * shortRangeWeapons.length)]!;
+    // SHORT の武器をランダムに1つ取得
+    const shortWeapon = chooseRandomly(shortRangeWeapons);
 
     let secondWeapon: Weapon;
-    
     while (true) {
-        // MID または LONG の武器をランダムに 1 つ取得
-        const candidateWeapon = midLongWeapons[Math.floor(Math.random() * midLongWeapons.length)]!;
+        // MID または LONG の武器をランダムに1つ取得
+        const candidateWeapon = chooseRandomly(midLongWeapons);
 
         // どちらかが KILL であるが、両方とも KILL にならないようにする
         const isShortKill = shortWeapon.role === 'KILL';
@@ -35,10 +38,7 @@ const getRandomWeaponPair = (): [Weapon, Weapon] => {
             break;
         }
     }
-    // 順番をランダムに入れ替える
-    if (Math.random() < 0.5) {
-        return [secondWeapon, shortWeapon];
-    }
+
     return [shortWeapon, secondWeapon];
 };
 
@@ -53,9 +53,6 @@ export const getWeaponsByNumber = (num: number): Weapon[] => {
         case 4:
             return [...getRandomWeaponPair(), ...getRandomWeaponPair()]; 
         default:
-            throw new Error("無効な番号です。1～4の値を指定してください。");
+            throw new Error('無効な番号です。1～4の値を指定してください。');
     }
 };
-
-
-

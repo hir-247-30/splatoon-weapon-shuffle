@@ -16,9 +16,8 @@
       "allowUnreachableCode": false,
       "paths": {
         "@common/*": ["./src/common/*"],
-        "@entities/*": ["./src/entities/*"],
-        "@models/*": ["./src/models/*"],
-        "@repositories/*": ["./src/repositories/*"],
+        "@const/*": ["./src/const/*"],
+        "@lib/*": ["./src/lib/*"],
         "@services/*": ["./src/services/*"],
       },
     },

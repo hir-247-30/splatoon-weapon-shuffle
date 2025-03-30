@@ -1,4 +1,4 @@
-import { WEAPON, Weapon } from "@const/weapons";
+import { WEAPON, Weapon } from '@const/weapons';
 import { chooseRandomly, shuffle, assertUndefined } from '@common/functions';
 
 const getRandomWeapon = (): Weapon => {

@@ -1,11 +1,23 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Report } from '@common/types';
 
-export function reportByDiscord (reports: Report[]): void {
+export function execReport (reports: Report[]): void {
+    const reportType = process.env['REPORT_TYPE'];
+
+    switch (reportType) {
+        case 'DISCORD':
+            reportByDiscord(reports);
+            break;
+        default:
+            throw new Error('通知先が正しくありません。');
+    }
+}
+
+function reportByDiscord (reports: Report[]): void {
     const content = buildMessage(reports);
 
     const requestOptions = {
-        url    : process.env['DISCORD_WEBHOOK_URL']!,
+        url    : process.env['REPORT_URL']!,
         method : 'POST',
         data   : { content },
         headers: { 'Content-Type': 'application/json' },

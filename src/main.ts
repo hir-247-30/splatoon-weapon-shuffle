@@ -1,6 +1,6 @@
 import  dotenv from 'dotenv';
 import { claimPlayerNames } from '@services/playerService';
-import { reportByDiscord } from '@services/reportService';
+import { execReport } from '@services/reportService';
 import { assertUndefined } from '@common/functions';
 import { Report } from '@common/types';
 import { getWeaponsByNumber } from '@lib/choice';
@@ -17,12 +17,12 @@ function main (): void {
 
         assertUndefined(weapon);
 
-        return{
+        return {
             player_name: playerName,
             weapon_name: weapon.name,
         };
     });
-    reportByDiscord(reportPlayerWeapon);
+    execReport(reportPlayerWeapon);
 }
 
 main();

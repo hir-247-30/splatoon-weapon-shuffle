@@ -25,5 +25,5 @@ export function shuffle<T> (array: T[]): T[] {
   }
 
 export function assertUndefined<T> (args: T|undefined): asserts args is T {
-    if (args === undefined) throw new Error('undefined assertion');
+    if (args === undefined) throw new Error('undefined detected');
 }

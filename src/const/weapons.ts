@@ -91,10 +91,10 @@ export const WEAPON = [
     { name: 'ドライブワイパーデコ', lc: 'WIPER', sc: 'ドライブワイパー', role: 'BALANCED', range: 'SHORT' },
     { name: 'ジムワイパー', lc: 'WIPER', sc: 'ジムワイパー', role: 'KILL', range: 'MID' },
     { name: 'ジムワイパーヒュー', lc: 'WIPER', sc: 'ジムワイパー', role: 'BALANCED', range: 'MID' },
-    { name: "スクイックリンα", lc: 'CHARGER', sc: 'スクイックリン', role: 'KILL', range: 'MID'},
-    { name: "スクイックリンβ", lc: 'CHARGER', sc: 'スクイックリン', role: 'KILL', range: 'MID'},
-    { name: "リッター4K", lc: 'CHARGER', sc: 'リッター4K', role: 'KILL', range: 'LONG'},
-    { name: "リッター4Kカスタム", lc: 'CHARGER', sc: 'リッター4K', role: 'KILL', range: 'LONG'}
+    { name: 'スクイックリンα', lc: 'CHARGER', sc: 'スクイックリン', role: 'KILL', range: 'MID'},
+    { name: 'スクイックリンβ', lc: 'CHARGER', sc: 'スクイックリン', role: 'KILL', range: 'MID'},
+    { name: 'リッター4K', lc: 'CHARGER', sc: 'リッター4K', role: 'KILL', range: 'LONG'},
+    { name: 'リッター4Kカスタム', lc: 'CHARGER', sc: 'リッター4K', role: 'KILL', range: 'LONG'}
 ] as const;
 
 export type Weapon = typeof WEAPON[number];

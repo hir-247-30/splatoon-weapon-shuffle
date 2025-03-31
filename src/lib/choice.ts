@@ -1,9 +1,28 @@
 import { WEAPON, Weapon } from '@const/v3/weapons';
 import { chooseRandomly, shuffle, assertUndefined } from '@common/functions';
 
+// ブラックリストに登録されているものを省く
+const getBlFilteredWeapon = (): Weapon[] => {
+    // 具体的な武器の名前「スプラシューターコラボ」とか
+    const weaponBl = (process.env['WEAPON_BLACKLIST'] ?? '').split(',');
+
+    // 武器種
+    // 例えば「シャープマーカー」ならシャープマーカーとシャープマーカーネオが選出されなくなる
+    const weaponScBl = (process.env['WEAPON_SMALL_CATEGORY_BLACKLIST'] ?? '').split(',');
+
+    // カテゴリ
+    // 「CHARGER」ならチャージャー種全て選出されなくなる
+    const weaponLcBl = (process.env['WEAPON_LARGE_CATEGORY_BLACKLIST'] ?? '').split(',');
+
+    return WEAPON.filter(v => !weaponBl.includes(v.name))
+                 .filter(v => !weaponScBl.includes(v.sc))
+                 .filter(v => !weaponLcBl.includes(v.lc));
+};
+
 const getRandomWeapon = (): Weapon => {
     // WEAPON の中からランダムに1つ選ぶ
-    const weapon = WEAPON[Math.floor(Math.random() * WEAPON.length)];
+    const weapons = getBlFilteredWeapon();
+    const weapon = weapons[Math.floor(Math.random() * WEAPON.length)];
 
     assertUndefined(weapon);
 
@@ -12,10 +31,11 @@ const getRandomWeapon = (): Weapon => {
 
 const getRandomWeaponPair = (): [Weapon, Weapon] => {
     // `range` が SHORT の武器を抽出
-    const shortRangeWeapons = WEAPON.filter(w => w.range === 'SHORT');
+    const weapons = getBlFilteredWeapon();
+    const shortRangeWeapons = weapons.filter(w => w.range === 'SHORT');
     
     // `range` が MID または LONG の武器を抽出
-    const midLongWeapons = WEAPON.filter(w => w.range === 'MID' || w.range === 'LONG');
+    const midLongWeapons = weapons.filter(w => w.range === 'MID' || w.range === 'LONG');
 
     if (shortRangeWeapons.length === 0 || midLongWeapons.length === 0) {
         throw new Error('適切な武器が見つかりませんでした。');
@@ -46,8 +66,9 @@ const getRandomWeaponTrio = (): [Weapon, Weapon, Weapon] => {
     const weaponPair = getRandomWeaponPair();
 
     // 持っていない射程
+    const weapons = getBlFilteredWeapon();
     const ranges = weaponPair.map(v => v.range);
-    const filterRange = WEAPON.filter(v => !ranges.includes(v.range));
+    const filterRange = weapons.filter(v => !ranges.includes(v.range));
 
     // 持っていない役割
     const roles = weaponPair.map(v => v.role);
@@ -70,7 +91,8 @@ const getRandomWeaponTeam = (): [Weapon, Weapon, Weapon, Weapon] => {
     const weaponTrio = getRandomWeaponTrio();
 
     // 長射程が2人にならないようにする
-    const filterRange = WEAPON.filter(v => v.range !== 'LONG');
+    const weapons = getBlFilteredWeapon();
+    const filterRange = weapons.filter(v => v.range !== 'LONG');
 
     // シューター以外のカテゴリ被りが発生しないように
     const largeCategories = weaponTrio.map(v => v.lc);

@@ -1,4 +1,4 @@
-import { WEAPON, Weapon } from '@const/weapons';
+import { WEAPON, Weapon } from '@const/v3/weapons';
 import { chooseRandomly, shuffle, assertUndefined } from '@common/functions';
 
 const getRandomWeapon = (): Weapon => {
@@ -53,11 +53,15 @@ const getRandomWeaponTrio = (): [Weapon, Weapon, Weapon] => {
     const roles = weaponPair.map(v => v.role);
     const filterRangeRole = filterRange.filter(v => !roles.includes(v.role));
 
-    // チャージャー2枚編成にならないように
-    const chargerSelected = weaponPair.some(v => v.lc === 'CHARGER');
-    const filterRangeRoleCharger = filterRangeRole.filter(v => chargerSelected ? v.lc !== 'CHARGER' : v);
+    // シューター以外のカテゴリ被りが発生しないように
+    const largeCategories = weaponPair.map(v => v.lc);
+    const filterRangeRoleLc = filterRangeRole.filter(v => v.lc === 'SHOOTER' || !largeCategories.includes(v.lc));
 
-    const thirdWeapon = chooseRandomly(filterRangeRoleCharger);
+    if (!filterRangeRoleLc.length) {
+        throw new Error('適切な武器が見つかりませんでした。');
+    }
+
+    const thirdWeapon = chooseRandomly(filterRangeRoleLc);
 
     return [...weaponPair, thirdWeapon];
 };
@@ -68,16 +72,23 @@ const getRandomWeaponTeam = (): [Weapon, Weapon, Weapon, Weapon] => {
     // 長射程が2人にならないようにする
     const filterRange = WEAPON.filter(v => v.range !== 'LONG');
 
+    // シューター以外のカテゴリ被りが発生しないように
+    const largeCategories = weaponTrio.map(v => v.lc);
+    const filterRangeLc = filterRange.filter(v => v.lc === 'SHOOTER' || !largeCategories.includes(v.lc));
+
     // スモールカテゴリでの被りがないようにする
     // 例えばボールドマーカーとボールドマーカーネオなど
     const smallCategories = weaponTrio.map(v => v.sc);
-    const filterRangeSc = filterRange.filter(v => !smallCategories.includes(v.sc));
+    const filterRangeLcSc = filterRangeLc.filter(v => !smallCategories.includes(v.sc));
 
-    // チャージャー2枚編成にならないように
-    const chargerSelected = weaponTrio.some(v => v.lc === 'CHARGER');
-    const filterRangeScCharger = filterRangeSc.filter(v => chargerSelected ? v.lc !== 'CHARGER' : v);
+    // ヘイト役が2枚編成にならないように
+    const tankSelected = weaponTrio.some(v => v.role === 'TANK');
+    const filterRangeLcScRole = filterRangeLcSc.filter(v => tankSelected ? v.role !== 'TANK' : v);
+    const lastWeapon = chooseRandomly(filterRangeLcScRole);
 
-    const lastWeapon = chooseRandomly(filterRangeScCharger);
+    if (!filterRangeLcScRole.length) {
+        throw new Error('適切な武器が見つかりませんでした。');
+    }
 
     return [...weaponTrio, lastWeapon];
 };

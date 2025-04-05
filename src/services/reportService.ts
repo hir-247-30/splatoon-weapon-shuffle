@@ -13,6 +13,14 @@ export function execReport (reports: Report[]): void {
     }
 }
 
+export function buildMessage (reports: Report[]): string {
+    let message = 'ブキチョイス';
+    reports.forEach(report => {
+        message += `\n${report.player_name}さんのブキは、「${report.weapon_name}」です`;
+    });
+    return message;
+}
+
 function reportByDiscord (reports: Report[]): void {
     const content = buildMessage(reports);
 
@@ -24,14 +32,6 @@ function reportByDiscord (reports: Report[]): void {
     };
 
     axiosRequest<void | string>(requestOptions);
-}
-
-function buildMessage (reports: Report[]): string {
-    let message = 'ブキチョイス';
-    reports.forEach(report => {
-        message += `\n${report.player_name}さんのブキは、「${report.weapon_name}」です`;
-    });
-    return message;
 }
 
 async function axiosRequest<T> (requestOptions: AxiosRequestConfig): Promise<T | void> {

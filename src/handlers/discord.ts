@@ -21,10 +21,10 @@ client.on('messageCreate', message => {
 
     const players = message.content.split('、');
 
-    process.env['PLAYER_NAME_1'] = players[0];
-    process.env['PLAYER_NAME_2'] = players[1];
-    process.env['PLAYER_NAME_3'] = players[2];
-    process.env['PLAYER_NAME_4'] = players[3];
+    process.env['PLAYER_NAME_1'] = players[0] ?? '';
+    process.env['PLAYER_NAME_2'] = players[1] ?? '';
+    process.env['PLAYER_NAME_3'] = players[2] ?? '';
+    process.env['PLAYER_NAME_4'] = players[3] ?? '';
 
     const playerNames: string[] = claimPlayerNames();
 

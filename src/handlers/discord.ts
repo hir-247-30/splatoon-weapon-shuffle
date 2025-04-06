@@ -36,8 +36,10 @@ client.on('messageCreate', message => {
         assertUndefined(weapon);
 
         return {
-            player_name: playerName,
-            weapon_name: weapon.name,
+            player_name : playerName,
+            weapon_name : weapon.name,
+            weapon_role : weapon.role,
+            weapon_range: weapon.range,
         };
     });
 

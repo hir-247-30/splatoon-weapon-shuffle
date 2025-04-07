@@ -16,12 +16,16 @@ export function execReport (reports: Report[]): void {
 
 export function buildMessage (reports: Report[]): string {
     let message = 'ブキチョイス';
-    reports.forEach(report => {
-        message += `
-        ${report.player_name}さんのブキは「${report.weapon_name}」です
-        ポジションは「${convertRange(report.weapon_range)}」、役割は「${convertRole(report.weapon_role)}」です
-        `;
-    });
+    for (const report of reports) {
+        message += `\n\n${report.player_name}さんのブキは「${report.weapon_name}」です`;
+
+        if (report.weapon_role === 'FREE') {
+            message += `\n今回は好きなブキを選んでください`;
+        } else {
+            message += `\nポジションは「${convertRange(report.weapon_range)}」、役割は「${convertRole(report.weapon_role)}」です`;
+        }
+    }
+
     return message;
 }
 

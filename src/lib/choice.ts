@@ -30,34 +30,26 @@ const getRandomWeapon = (): Weapon => {
 };
 
 const getRandomWeaponPair = (): [Weapon, Weapon] => {
-    // `range` が SHORT の武器を抽出
+    // SHORT の武器をランダムに1つ取得
     const weapons = getBlFilteredWeapon();
     const shortRangeWeapons = weapons.filter(w => w.range === 'SHORT');
-    
-    // `range` が MID または LONG の武器を抽出
-    const midLongWeapons = weapons.filter(w => w.range === 'MID' || w.range === 'LONG');
 
-    if (shortRangeWeapons.length === 0 || midLongWeapons.length === 0) {
-        throw new Error('適切な武器が見つかりませんでした。');
+    if (!shortRangeWeapons.length) {
+        return [getFreeWeapon(), getFreeWeapon()];
     }
 
-    // SHORT の武器をランダムに1つ取得
     const shortWeapon = chooseRandomly(shortRangeWeapons);
 
-    let secondWeapon: Weapon;
-    while (true) {
-        // MID または LONG の武器をランダムに1つ取得
-        const candidateWeapon = chooseRandomly(midLongWeapons);
-
-        // どちらかが PAINT であるが、両方とも PAINT にならないようにする
-        const isShortPaint = shortWeapon.role === 'PAINT';
-        const isCandidatePaint = candidateWeapon.role === 'PAINT';
-
-        if (isShortPaint !== isCandidatePaint) {
-            secondWeapon = candidateWeapon;
-            break;
-        }
+    // `range` が MID または LONG の武器を抽出
+    // どちらかが KILL であるが、両方とも KILL にならないようにする
+    const midLongWeapons = weapons.filter(w => w.range === 'MID' || w.range === 'LONG');
+    const midLongFiltered = midLongWeapons.filter(v => shortWeapon.role !== 'KILL' ? v.role === 'KILL' : v);
+    
+    if (!shortRangeWeapons.length) {
+        return [shortWeapon, getFreeWeapon()];
     }
+    
+    const secondWeapon = chooseRandomly(midLongFiltered);
 
     return [shortWeapon, secondWeapon];
 };
@@ -70,16 +62,17 @@ const getRandomWeaponTrio = (): [Weapon, Weapon, Weapon] => {
     const ranges = weaponPair.map(v => v.range);
     const filterRange = weapons.filter(v => !ranges.includes(v.range));
 
-    // 持っていない役割
+    // 持っていない役割 塗り優先
     const roles = weaponPair.map(v => v.role);
-    const filterRangeRole = filterRange.filter(v => !roles.includes(v.role));
+    const paintSelected = weaponPair.some(v => v.role === 'PAINT');
+    const filterRangeRole = filterRange.filter(v => !paintSelected ? v.role === 'PAINT' : !roles.includes(v.role));
 
     // シューター以外のカテゴリ被りが発生しないように
     const largeCategories = weaponPair.map(v => v.lc);
     const filterRangeRoleLc = filterRangeRole.filter(v => v.lc === 'SHOOTER' || !largeCategories.includes(v.lc));
 
     if (!filterRangeRoleLc.length) {
-        throw new Error('適切な武器が見つかりませんでした。');
+        return [...weaponPair, getFreeWeapon()];
     }
 
     const thirdWeapon = chooseRandomly(filterRangeRoleLc);
@@ -90,9 +83,9 @@ const getRandomWeaponTrio = (): [Weapon, Weapon, Weapon] => {
 const getRandomWeaponTeam = (): [Weapon, Weapon, Weapon, Weapon] => {
     const weaponTrio = getRandomWeaponTrio();
 
-    // 長射程が2人にならないようにする
+    // 2人目の短射程
     const weapons = getBlFilteredWeapon();
-    const filterRange = weapons.filter(v => v.range !== 'LONG');
+    const filterRange = weapons.filter(v => v.range === 'SHORT');
 
     // シューター以外のカテゴリ被りが発生しないように
     const largeCategories = weaponTrio.map(v => v.lc);
@@ -109,10 +102,18 @@ const getRandomWeaponTeam = (): [Weapon, Weapon, Weapon, Weapon] => {
     const lastWeapon = chooseRandomly(filterRangeLcScRole);
 
     if (!filterRangeLcScRole.length) {
-        throw new Error('適切な武器が見つかりませんでした。');
+        return [...weaponTrio, getFreeWeapon()];
     }
 
     return [...weaponTrio, lastWeapon];
+};
+
+const getFreeWeapon = (): Weapon => {
+    const free = WEAPON.find(v => v.role === 'FREE');
+
+    assertUndefined(free);
+
+    return free;
 };
 
 export const getWeaponsByNumber = (playerNum: number): Weapon[] => {

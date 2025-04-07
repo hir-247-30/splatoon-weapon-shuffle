@@ -42,10 +42,10 @@ const getRandomWeaponPair = (): [Weapon, Weapon] => {
 
     // `range` が MID または LONG の武器を抽出
     // どちらかが KILL であるが、両方とも KILL にならないようにする
-    const midLongWeapons = weapons.filter(w => w.range === 'MID' || w.range === 'LONG');
+    const midLongWeapons = weapons.filter(v => v.range === 'MID' || v.range === 'LONG');
     const midLongFiltered = midLongWeapons.filter(v => shortWeapon.role !== 'KILL' ? v.role === 'KILL' : v);
     
-    if (!shortRangeWeapons.length) {
+    if (!midLongFiltered.length) {
         return [shortWeapon, getFreeWeapon()];
     }
     

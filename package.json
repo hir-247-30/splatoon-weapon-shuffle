@@ -1,5 +1,5 @@
 {
-  "name": "splatoon-weapon-randimization",
+  "name": "splatoon-weapon-shuffle",
   "version": "1.0.0",
   "type": "module",
   "main": "src/handlers/cli.ts",
@@ -7,24 +7,26 @@
     "battle": "tsx src/handlers/cli.ts",
     "discord": "tsx src/handlers/discord.ts",
     "line": "tsx src/handlers/line.ts",
+    "line-local": "npx lt --port 3000",
     "test": "npx tsc --noEmit && npx eslint . --ext .ts",
     "format": "npx eslint . --fix --ext .ts"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hir-247-30/splatoon-weapon-randimization.git"
+    "url": "git+https://github.com/hir-247-30/splatoon-weapon-shuffle.git"
   },
   "author": "hir-247-30",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/hir-247-30/splatoon-weapon-randimization/issues"
+    "url": "https://github.com/hir-247-30/splatoon-weapon-shuffle/issues"
   },
-  "homepage": "https://github.com/hir-247-30/splatoon-weapon-randimization#readme",
+  "homepage": "https://github.com/hir-247-30/splatoon-weapon-shuffle#readme",
   "description": "",
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.8",
     "@types/node": "^22.13.11",
     "eslint": "^9.23.0",
+    "localtunnel": "^2.0.2",
     "typescript": "^5.8.2"
   },
   "dependencies": {

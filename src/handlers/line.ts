@@ -1,40 +1,21 @@
 import  dotenv from 'dotenv';
+import crypto from 'crypto';
 import { serve } from '@hono/node-server';
 import { Context, Hono } from 'hono';
-import { logger } from 'hono/logger';
-import { cors } from 'hono/cors';
-import { middleware, messagingApi, WebhookEvent } from "@line/bot-sdk";
+import { messagingApi, WebhookEvent } from "@line/bot-sdk";
 
 dotenv.config({ path: '.env' });
 
-const config = {
-    channelAccessToken: process.env['LINE_CHANNEL_ACCESS_TOKEN']!,
-    channelSecret: process.env['LINE_CHANNEL_ACCESS_SECRET']!,
-};
-
 const hono = new Hono();
-const { MessagingApiClient } = messagingApi
-
-hono.use('/webhook', logger());
-hono.use('/webhook', cors());
-
-// 認証用ミドルウェア
-hono.use('/webhook', async (c: Context, next) => {
-    const req = c.req.raw;
-    const res = c.res;
-    const lineAuth = middleware(config);
-    return new Promise((resolve, reject) => {
-        // Hono.js(Fetch API)と型が合わない
-        // @ts-expect-error
-        lineAuth(req, res, (err: unknown) => {
-            if (err) reject(err);
-            else resolve(next());
-        });
-    });
-});
+const { MessagingApiClient } = messagingApi;
 
 hono.post('/webhook', async (c: Context) => {
-    const body = await c.req.json();
+    const signatureAuth = await auth(c);
+    if (!signatureAuth) {
+        return c.body(null, 403);
+    }
+
+    const body = JSON.parse(await c.req.text());
     const event: WebhookEvent = body.events?.[0];
     if (event.type !== 'message') {
         return c.body(null, 200);
@@ -59,8 +40,22 @@ hono.post('/webhook', async (c: Context) => {
 
 const server = serve({ ...hono, port: 3000 }, () => console.log('起動中'));
 
-const gracefulShutdown = function() {
-    server.close(function() {
+const auth = async function (c: Context): Promise<boolean> {
+    const signature = c.req.header('x-line-signature');
+    const rawBody = await c.req.text();
+  
+    if (signature === undefined) return false;
+  
+    const cry = crypto
+        .createHmac('sha256', process.env['LINE_CHANNEL_ACCESS_SECRET']!)
+        .update(rawBody)
+        .digest('base64');
+    
+    return cry === signature;
+};
+
+const gracefulShutdown = function (): void {
+    server.close(function () {
         console.log('終了中');
         process.exit();
     });

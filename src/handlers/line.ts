@@ -3,6 +3,11 @@ import crypto from 'crypto';
 import { serve } from '@hono/node-server';
 import { Context, Hono } from 'hono';
 import { messagingApi, WebhookEvent } from "@line/bot-sdk";
+import { claimPlayerNames } from '@services/playerService';
+import { buildMessage } from '@services/reportService';
+import { assertUndefined } from '@common/functions';
+import { Report } from '@common/types';
+import { getWeaponsByNumber } from '@lib/choice';
 
 dotenv.config({ path: '.env' });
 
@@ -11,20 +16,40 @@ const { MessagingApiClient } = messagingApi;
 
 hono.post('/webhook', async (c: Context) => {
     const signatureAuth = await auth(c);
-    if (!signatureAuth) {
-        return c.body(null, 403);
-    }
+
+    if (!signatureAuth) return c.body(null, 403);
 
     const body = JSON.parse(await c.req.text());
     const event: WebhookEvent = body.events?.[0];
-    if (event.type !== 'message') {
-        return c.body(null, 200);
-    }
+
+    if (event.type !== 'message') return c.body(null, 400);
+    if (event.message.type !== 'text') return c.body(null, 400);
+
+    const players = event.message.text.split('、');
 	
-    let message = '';
-    if (event.message.type === 'text'){
-        message = event.message.text;
-    }
+    process.env['PLAYER_NAME_1'] = players[0] ?? '';
+    process.env['PLAYER_NAME_2'] = players[1] ?? '';
+    process.env['PLAYER_NAME_3'] = players[2] ?? '';
+    process.env['PLAYER_NAME_4'] = players[3] ?? '';
+
+    const playerNames: string[] = claimPlayerNames();
+
+    const weapons = getWeaponsByNumber(playerNames.length);
+
+    const reportPlayerWeapon: Report[] = playerNames.map((playerName, index) => {
+        const weapon = weapons[index];
+
+        assertUndefined(weapon);
+
+        return {
+            player_name : playerName,
+            weapon_name : weapon.name,
+            weapon_role : weapon.role,
+            weapon_range: weapon.range,
+        };
+    });
+
+    const reply = buildMessage(reportPlayerWeapon);
 
     const client = new MessagingApiClient({
         channelAccessToken: process.env['LINE_CHANNEL_ACCESS_TOKEN']!
@@ -32,7 +57,7 @@ hono.post('/webhook', async (c: Context) => {
 
     await client.replyMessage({
         replyToken: event.replyToken,
-        messages: [{type: 'text', text: message + 'スプラトゥーンAPI'}]
+        messages: [{type: 'text', text: reply}],
     });
 
     return c.body(null, 200);

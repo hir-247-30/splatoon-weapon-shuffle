@@ -1,9 +1,8 @@
 import pino from 'pino';
 import dayjs from 'dayjs';
 
-const date = dayjs().format('YYMMDD');
-
 export function errorLog (contents: unknown): void {
+    const date = dayjs().format('YYMMDD');
     const logger = pino({
         level: 'error',
         transport: {

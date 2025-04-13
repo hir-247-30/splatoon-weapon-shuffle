@@ -5,6 +5,7 @@ import { Context, Hono } from 'hono';
 import { messagingApi, WebhookEvent } from "@line/bot-sdk";
 import { claimPlayerNames } from '@services/playerService';
 import { buildMessage } from '@services/reportService';
+import { errorLog } from '@services/loggingService';
 import { assertUndefined } from '@common/functions';
 import { Report } from '@common/types';
 import { getWeaponsByNumber } from '@lib/choice';
@@ -32,9 +33,22 @@ hono.post('/webhook', async (c: Context) => {
     process.env['PLAYER_NAME_3'] = players[2] ?? '';
     process.env['PLAYER_NAME_4'] = players[3] ?? '';
 
-    const playerNames: string[] = claimPlayerNames();
+    const playerNamesResult = claimPlayerNames();
 
-    const weapons = getWeaponsByNumber(playerNames.length);
+    if (playerNamesResult.isErr()) {
+        errorLog(playerNamesResult.error);
+        return c.body(null, 400);
+    }
+
+    const playerNames = playerNamesResult.value;
+    const weaponResult = getWeaponsByNumber(playerNames.length);
+
+    if (weaponResult.isErr()) {
+        errorLog(weaponResult.error);
+        return c.body(null, 400);
+    }
+
+    const weapons = weaponResult.value;
 
     const reportPlayerWeapon: Report[] = playerNames.map((playerName, index) => {
         const weapon = weapons[index];

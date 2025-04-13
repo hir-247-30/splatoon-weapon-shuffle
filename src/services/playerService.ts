@@ -1,4 +1,7 @@
-export function claimPlayerNames (): string[] {
+import { err, ok } from 'neverthrow';
+import type { Result } from 'neverthrow';
+
+export function claimPlayerNames (): Result<string[], Error> {
     const undefinedPlayerNames = [
         process.env['PLAYER_NAME_1'],
         process.env['PLAYER_NAME_2'],
@@ -10,8 +13,8 @@ export function claimPlayerNames (): string[] {
     const playerNames = tmp.filter(v => v !== '');
 
     if (!playerNames.length) {
-        throw new Error('プレイヤーを1人以上登録してください。');
+        return err(new Error('プレイヤーを1人以上登録してください。'));
     }
 
-    return playerNames;
+    return ok(playerNames);
 }

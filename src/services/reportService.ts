@@ -1,8 +1,10 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { err, ok } from 'neverthrow';
 import { assertUndefined } from '@common/functions';
 import { Report } from '@common/types';
+import type { Result } from 'neverthrow';
 
-export function execReport (reports: Report[]): void {
+export function execReport (reports: Report[]): Result<void, Error> {
     const reportType = process.env['REPORT_TYPE'];
 
     switch (reportType) {
@@ -10,8 +12,10 @@ export function execReport (reports: Report[]): void {
             reportByDiscord(reports);
             break;
         default:
-            throw new Error('通知先が正しくありません。');
+            return err(new Error('通知先が正しくありません。'));
     }
+
+    return ok();
 }
 
 export function buildMessage (reports: Report[]): string {

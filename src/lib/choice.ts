@@ -1,5 +1,7 @@
+import { err, ok } from 'neverthrow';
 import { WEAPON, Weapon } from '@const/v3/weapons';
 import { chooseRandomly, shuffle, assertUndefined } from '@common/functions';
+import type { Result } from 'neverthrow';
 
 // ブラックリストに登録されているものを省く
 const getBlFilteredWeapon = (): Weapon[] => {
@@ -116,17 +118,25 @@ const getFreeWeapon = (): Weapon => {
     return free;
 };
 
-export const getWeaponsByNumber = (playerNum: number): Weapon[] => {
+export const getWeaponsByNumber = (playerNum: number): Result<Weapon[], Error> => {
+    let weapons: Weapon[];
     switch (playerNum) {
         case 1:
-            return shuffle([getRandomWeapon()]);
+            weapons = [getRandomWeapon()];
+            break;
         case 2:
-            return shuffle(getRandomWeaponPair()); 
+            weapons = getRandomWeaponPair(); 
+            break;
         case 3:
-            return shuffle(getRandomWeaponTrio()); 
+            weapons = getRandomWeaponTrio();
+            break; 
         case 4:
-            return shuffle(getRandomWeaponTeam()); 
+            weapons = getRandomWeaponTeam();
+            break;
         default:
-            throw new Error('無効な番号です。1～4の値を指定してください。');
+            return err(new Error('無効な番号です。1～4の値を指定してください。'));
     }
+
+    const shuffled = shuffle(weapons);
+    return ok(shuffled);
 };

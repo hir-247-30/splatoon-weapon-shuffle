@@ -105,6 +105,8 @@ export const WEAPON = [
     { name: 'ドライブワイパーデコ', lc: 'WIPER', sc: 'ドライブワイパー', role: 'BALANCED', range: 'SHORT' },
     { name: 'ジムワイパー', lc: 'WIPER', sc: 'ジムワイパー', role: 'KILL', range: 'MID' },
     { name: 'ジムワイパーヒュー', lc: 'WIPER', sc: 'ジムワイパー', role: 'BALANCED', range: 'MID' },
+    { name: 'デンタルワイパーミント', lc: 'WIPER', sc: 'デンタルワイパー', role: 'BALANCED', range: 'MID' },
+    { name: 'デンタルワイパースミ', lc: 'WIPER', sc: 'デンタルワイパー', role: 'BALANCED', range: 'MID' },
     { name: 'トライストリンガー', lc: 'STRINGER', sc: 'トライストリンガー', role: 'KILL', range: 'LONG'},
     { name: 'トライストリンガーコラボ', lc: 'STRINGER', sc: 'トライストリンガー', role: 'KILL', range: 'LONG'},
     { name: 'LACT-450', lc: 'STRINGER', sc: 'LACT-450', role: 'PAINT', range: 'MID'},

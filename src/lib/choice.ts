@@ -46,12 +46,15 @@ const getRandomWeaponPair = (): [Weapon, Weapon] => {
     // どちらかが KILL であるが、両方とも KILL にならないようにする
     const midLongWeapons = weapons.filter(v => v.range === 'MID' || v.range === 'LONG');
     const midLongFiltered = midLongWeapons.filter(v => shortWeapon.role !== 'KILL' ? v.role === 'KILL' : v);
+
+    // シューター以外のカテゴリ被りが発生しないように
+    const midLongLcFiltered = midLongFiltered.filter(v => v.lc === 'SHOOTER' || v.lc !== shortWeapon.lc);
     
-    if (!midLongFiltered.length) {
+    if (!midLongLcFiltered.length) {
         return [shortWeapon, getFreeWeapon()];
     }
     
-    const secondWeapon = chooseRandomly(midLongFiltered);
+    const secondWeapon = chooseRandomly(midLongLcFiltered);
 
     return [shortWeapon, secondWeapon];
 };

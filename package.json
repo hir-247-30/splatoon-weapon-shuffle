@@ -8,7 +8,7 @@
     "discord": "tsx src/handlers/discord.ts",
     "line": "tsx src/handlers/line.ts",
     "line-local": "npx lt --port 3000",
-    "test": "npx tsc --noEmit && npx eslint . --ext .ts",
+    "test": "npx tsc --noEmit && npx eslint . --ext .ts && mocha -r tsx 'src/test/**/*.ts'",
     "format": "npx eslint . --fix --ext .ts"
   },
   "repository": {
@@ -24,6 +24,8 @@
   "description": "",
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.8",
+    "@types/chai": "^5.2.1",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^22.13.11",
     "eslint": "^9.23.0",
     "localtunnel": "^2.0.2",
@@ -33,10 +35,12 @@
     "@hono/node-server": "^1.14.0",
     "@line/bot-sdk": "^9.8.0",
     "axios": "^1.8.4",
+    "chai": "^5.2.0",
     "dayjs": "^1.11.13",
     "discord.js": "^14.18.0",
     "dotenv": "^16.4.7",
     "hono": "^4.7.6",
+    "mocha": "^11.1.0",
     "neverthrow": "^8.2.0",
     "pino": "^9.6.0",
     "tsx": "^4.19.3",

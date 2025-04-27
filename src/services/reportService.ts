@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { err, ok } from 'neverthrow';
+import { WebClient } from '@slack/web-api';
 import { assertUndefined } from '@common/functions';
 import { Report } from '@common/types';
 import type { Result } from 'neverthrow';
@@ -10,6 +11,9 @@ export function execReport (reports: Report[]): Result<void, Error> {
     switch (reportType) {
         case 'DISCORD':
             reportByDiscord(reports);
+            break;
+        case 'SLACK':
+            reportBySlack(reports);
             break;
         default:
             return err(new Error('通知先が正しくありません。'));
@@ -66,13 +70,22 @@ function reportByDiscord (reports: Report[]): void {
     const content = buildMessage(reports);
 
     const requestOptions = {
-        url    : process.env['REPORT_URL']!,
+        url    : process.env['DISCORD_REPORT_URL']!,
         method : 'POST',
         data   : { content },
         headers: { 'Content-Type': 'application/json' },
     };
 
     axiosRequest<void | string>(requestOptions);
+}
+
+async function reportBySlack (reports: Report[]): Promise<void> {
+    const text = buildMessage(reports);
+
+    const channel = `#${process.env['SLACK_CHANNEL']!}`;
+    const client = new WebClient(process.env['SLACK_BOT_OAUTH_TOKEN']!);
+
+    await client.chat.postMessage({ channel, text });
 }
 
 async function axiosRequest<T> (requestOptions: AxiosRequestConfig): Promise<T | void> {

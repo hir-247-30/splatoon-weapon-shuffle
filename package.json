@@ -34,6 +34,7 @@
   "dependencies": {
     "@hono/node-server": "^1.14.0",
     "@line/bot-sdk": "^9.8.0",
+    "@slack/web-api": "^7.9.1",
     "axios": "^1.8.4",
     "chai": "^5.2.0",
     "dayjs": "^1.11.13",

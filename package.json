@@ -8,6 +8,7 @@
     "discord": "tsx src/handlers/discord.ts",
     "line": "tsx src/handlers/line.ts",
     "line-local": "npx lt --port 3000",
+    "web": "npx tsc --noEmit && node esbuild.config.mjs",
     "test": "npx tsc --noEmit && npx eslint . --ext .ts && mocha -r tsx 'src/test/**/*.ts'",
     "format": "npx eslint . --fix --ext .ts"
   },
@@ -27,6 +28,7 @@
     "@types/chai": "^5.2.1",
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.13.11",
+    "esbuild": "^0.25.4",
     "eslint": "^9.23.0",
     "localtunnel": "^2.0.2",
     "typescript": "^5.8.2"

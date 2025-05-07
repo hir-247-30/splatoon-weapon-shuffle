@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>スプラトゥーン ブキシャッフル</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 2em;
+      background: #f9f9f9;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 1em;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .input-group {
+      margin-bottom: 1em;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.2em;
+      font-weight: bold;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 0.5em;
+      font-size: 1em;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 0.5em 1em;
+      font-size: 1em;
+      cursor: pointer;
+    }
+    textarea {
+      height: 80px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>遊ぶプレイヤー名を入力してください</h2>
+
+    <div class="input-group">
+      <label for="player1">1人目</label>
+      <input type="text" id="player1">
+    </div>
+    <div class="input-group">
+      <label for="player2">2人目</label>
+      <input type="text" id="player2">
+    </div>
+    <div class="input-group">
+      <label for="player3">3人目</label>
+      <input type="text" id="player3">
+    </div>
+    <div class="input-group">
+      <label for="player4">4人目</label>
+      <input type="text" id="player4">
+    </div>
+
+    <button id="weapon-select">ブキを選ぶ</button>
+
+    <div class="input-group">
+      <label for="result">結果</label>
+      <textarea id="result" readonly></textarea>
+    </div>
+
+    <div class="input-group">
+      <label for="error">エラー</label>
+      <textarea id="error" readonly style="color: red;"></textarea>
+    </div>
+  </div>
+  <script src="splatoon.js"></script>
+</body>
+</html>

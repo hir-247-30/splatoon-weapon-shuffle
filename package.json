@@ -9,8 +9,8 @@
     "line": "tsx src/handlers/line.ts",
     "line-local": "npx lt --port 3000",
     "web": "npx tsc --noEmit && node esbuild.config.mjs",
-    "test": "npx tsc --noEmit && npx eslint . --ext .ts && mocha -r tsx 'src/test/**/*.ts'",
-    "format": "npx eslint . --fix --ext .ts"
+    "test": "npx tsc --noEmit && npx eslint . --ignore-pattern \"**/*.js\" --ext .ts && mocha -r tsx 'src/test/**/*.ts'",
+    "format": "npx eslint . --ignore-pattern \"**/*.js\" --fix --ext .ts "
   },
   "repository": {
     "type": "git",

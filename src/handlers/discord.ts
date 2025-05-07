@@ -1,6 +1,6 @@
 import  dotenv from 'dotenv';
 import { claimPlayerNames } from '@services/playerService';
-import { buildMessage } from '@services/reportService';
+import { buildMessage } from '@services/messageService';
 import { errorLog } from '@services/loggingService';
 import { assertUndefined } from '@common/functions';
 import { Report } from '@common/types';

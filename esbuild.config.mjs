@@ -10,6 +10,7 @@ const define = Object.fromEntries(
 
 await esbuild.build({
     entryPoints: ['src/handlers/web.ts'],
+    minify     : true,
     bundle     : true,
     outfile    : 'public/splatoon.js',
     platform   : 'browser',

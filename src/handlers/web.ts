@@ -4,6 +4,8 @@ import { getWeaponsByNumber } from '@lib/choice';
 import { buildMessage } from '@services/messageService';
 
 function main (): void {
+    document.getElementById('error')!.style.display = '';
+
     const player1 = (document.getElementById('player1')! as HTMLInputElement).value;
     const player2 = (document.getElementById('player2')! as HTMLInputElement).value;
     const player3 = (document.getElementById('player3')! as HTMLInputElement).value;
@@ -19,7 +21,7 @@ function main (): void {
     const weaponResult = getWeaponsByNumber(playerNames.length);
 
     if (weaponResult.isErr()) {
-        error('うまく選出でいなかったので、リトライしてください！');
+        error('うまく選出できなかったので、リトライしてください！');
         return;
     }
 
@@ -39,11 +41,12 @@ function main (): void {
 
     const message = buildMessage(reportPlayerWeapon);
 
-    (document.getElementById('result')! as HTMLTextAreaElement).value = message;
+    document.getElementById('result')!.innerHTML = message;
 }
 
 function error (message: string): void {
-    (document.getElementById('error')! as HTMLTextAreaElement).value = message;
+    document.getElementById('error')!.innerHTML = message;
+    document.getElementById('error')!.style.display = 'block';
 }
 
 document.getElementById('weapon-select')!.addEventListener('click', () => {

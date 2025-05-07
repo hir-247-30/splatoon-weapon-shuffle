@@ -9,6 +9,10 @@
       margin: 2em;
       background: #f9f9f9;
     }
+    h3.title {
+      text-align: center;
+      margin-bottom: 1em;
+    }
     .container {
       max-width: 600px;
       margin: 0 auto;
@@ -17,62 +21,71 @@
       border: 1px solid #ccc;
       border-radius: 8px;
     }
-    .input-group {
+    .error {
+      color: red;
+      margin-bottom: 1em;
+      display: none;
+    }
+    .inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1em;
       margin-bottom: 1em;
     }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+    }
     label {
-      display: block;
       margin-bottom: 0.2em;
       font-weight: bold;
     }
-    input[type="text"], textarea {
-      width: 100%;
+    input[type="text"] {
       padding: 0.5em;
       font-size: 1em;
-      box-sizing: border-box;
     }
     button {
       padding: 0.5em 1em;
       font-size: 1em;
       cursor: pointer;
+      margin-bottom: 1em;
     }
-    textarea {
-      height: 80px;
+    .result {
+      padding: 1em;
+      border: 1px solid #ccc;
+      background-color: #f0f0f0;
+      border-radius: 4px;
+      white-space: pre-wrap;
     }
   </style>
 </head>
 <body>
+  <h3 class="title">スプラトゥーン ブキシャッフル</h3>
   <div class="container">
-    <h2>遊ぶプレイヤー名を入力してください</h2>
+    <div id="error" class="error"></div>
 
-    <div class="input-group">
-      <label for="player1">1人目</label>
-      <input type="text" id="player1">
-    </div>
-    <div class="input-group">
-      <label for="player2">2人目</label>
-      <input type="text" id="player2">
-    </div>
-    <div class="input-group">
-      <label for="player3">3人目</label>
-      <input type="text" id="player3">
-    </div>
-    <div class="input-group">
-      <label for="player4">4人目</label>
-      <input type="text" id="player4">
-    </div>
-
-    <button id="weapon-select">ブキを選ぶ</button>
-
-    <div class="input-group">
-      <label for="result">結果</label>
-      <textarea id="result" readonly></textarea>
+    <div class="inputs">
+      <div class="input-group">
+        <label for="player1">プレイヤー名その1</label>
+        <input type="text" id="player1" maxlength="20">
+      </div>
+      <div class="input-group">
+        <label for="player2">プレイヤー名その2</label>
+        <input type="text" id="player2" maxlength="20">
+      </div>
+      <div class="input-group">
+        <label for="player3">プレイヤー名その3</label>
+        <input type="text" id="player3" maxlength="20">
+      </div>
+      <div class="input-group">
+        <label for="player4">プレイヤー名その4</label>
+        <input type="text" id="player4" maxlength="20">
+      </div>
     </div>
 
-    <div class="input-group">
-      <label for="error">エラー</label>
-      <textarea id="error" readonly style="color: red;"></textarea>
-    </div>
+    <button id="weapon-select">ブキを選出</button>
+
+    <div id="result" class="result"></div>
   </div>
   <script src="splatoon.js"></script>
 </body>

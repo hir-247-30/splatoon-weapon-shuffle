@@ -1,5 +1,6 @@
 import  dotenv from 'dotenv';
 import { claimPlayerNames } from '@services/playerService';
+import { buildMessage } from '@services/messageService';
 import { execReport } from '@services/reportService';
 import { errorLog } from '@services/loggingService';
 import { assertUndefined } from '@common/functions';
@@ -38,7 +39,8 @@ function main (): void {
         };
     });
 
-    const reportResult = execReport(reportPlayerWeapon);
+    const message = buildMessage(reportPlayerWeapon);
+    const reportResult = execReport(message);
 
     if (reportResult.isErr()) {
         errorLog(reportResult.error);

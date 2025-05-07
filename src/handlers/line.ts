@@ -4,7 +4,7 @@ import { serve } from '@hono/node-server';
 import { Context, Hono } from 'hono';
 import { messagingApi, WebhookEvent } from "@line/bot-sdk";
 import { claimPlayerNames } from '@services/playerService';
-import { buildMessage } from '@services/reportService';
+import { buildMessage } from '@services/messageService';
 import { errorLog } from '@services/loggingService';
 import { assertUndefined } from '@common/functions';
 import { Report } from '@common/types';

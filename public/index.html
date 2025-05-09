@@ -44,11 +44,29 @@
       padding: 0.5em;
       font-size: 1em;
     }
-    button {
-      padding: 0.5em 1em;
+    .main-button {
+      padding: 0.6em 1.2em;
       font-size: 1em;
       cursor: pointer;
       margin-bottom: 1em;
+      border-radius: 4px; /* ほんの少し丸み程度 */
+      background-color: #007bff;
+      color: white;
+      border: none;
+    }
+    .sub-button {
+      padding: 0.3em 0.8em;
+      font-size: 0.85em;
+      cursor: pointer;
+      margin-top: 0.5em;
+      margin-right: 0.5em;
+      border-radius: 9999px;
+      background-color: #e0e0e0;
+      color: #333;
+      border: 1px solid #ccc;
+    }
+    .sub-button:hover {
+      background-color: #d4d4d4;
     }
     .result {
       padding: 1em;
@@ -83,9 +101,11 @@
       </div>
     </div>
 
-    <button id="weapon-select">ブキを選出</button>
+    <button id="weapon-select" class="main-button">ブキを選出</button>
 
     <div id="result" class="result"></div>
+    <button id="copy-result" class="sub-button" style="margin-top: 1em;">結果をコピーする</button>
+    <button id="share-line" class="sub-button" style="margin-left: 1em;">LINEで結果を共有する</button>
   </div>
   <script src="splatoon.js"></script>
 </body>

@@ -49,6 +49,37 @@ function error (message: string): void {
     document.getElementById('error')!.style.display = 'block';
 }
 
+function copy (): void {
+    const text = document.getElementById('result')!.innerText;
+
+    navigator.clipboard.writeText(text)
+    .then(() => {
+        const resultCopyBtn = document.getElementById('copy-result')!;
+        const tmp = resultCopyBtn.textContent;
+        resultCopyBtn.textContent = 'コピーしました！';
+
+        setTimeout(() => {
+            resultCopyBtn.textContent = tmp;
+        }, 500);
+    });
+}
+
+function shareByLine (): void {
+    const text = document.getElementById('result')!.innerText;
+    const encoded = encodeURIComponent(text);
+    const url = `https://social-plugins.line.me/lineit/share?text=${encoded}`;
+
+    window.open(url, '_blank');
+}
+
 document.getElementById('weapon-select')!.addEventListener('click', () => {
     main();
+});
+
+document.getElementById('copy-result')!.addEventListener('click', () => {
+    copy();
+});
+
+document.getElementById('share-line')!.addEventListener('click', () => {
+    shareByLine();
 });

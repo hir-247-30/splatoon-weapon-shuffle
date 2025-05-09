@@ -2,18 +2,19 @@ import { Report } from '@common/types';
 import { assertUndefined } from '@common/functions';
 
 export function buildMessage (reports: Report[]): string {
-    let message = 'ブキチョイス';
+    let message = '';
     for (const report of reports) {
-        message += `\n\n${report.player_name}さんのブキは「${report.weapon_name}」です`;
+        message += `\n\n${report.player_name}さんのブキは「${report.weapon_name}」です。`;
 
         if (report.weapon_role === 'FREE') {
-            message += `\n今回は好きなブキを選んでください`;
+            message += `\n今回は好きなブキを選んでください。`;
         } else {
-            message += `\nポジションは「${convertRange(report.weapon_range)}」、役割は「${convertRole(report.weapon_role)}」です`;
+            message += `\nポジションは「${convertRange(report.weapon_range)}」、役割は「${convertRole(report.weapon_role)}」です。`;
         }
     }
 
-    return message;
+    // 先頭の改行を削除
+    return message.substring(2);
 }
 
 function convertRange (range: string): string {

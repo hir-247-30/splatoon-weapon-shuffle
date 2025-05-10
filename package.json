@@ -4,7 +4,7 @@
   "type": "module",
   "main": "src/handlers/cli.ts",
   "scripts": {
-    "battle": "tsx src/handlers/cli.ts",
+    "report": "tsx src/handlers/cli.ts",
     "discord": "tsx src/handlers/discord.ts",
     "line": "tsx src/handlers/line.ts",
     "line-local": "npx lt --port 3000",

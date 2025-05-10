@@ -28,6 +28,7 @@ jobs:
       - name: esbuild
         run: node esbuild.config.mjs
         env:
+          GAME_VERSION: 3
           WEAPON_BLACKLIST: ${{ secrets.WEAPON_BLACKLIST }}
           WEAPON_SMALL_CATEGORY_BLACKLIST: ${{ secrets.WEAPON_SMALL_CATEGORY_BLACKLIST }}
           WEAPON_LARGE_CATEGORY_BLACKLIST: ${{ secrets.WEAPON_LARGE_CATEGORY_BLACKLIST }}

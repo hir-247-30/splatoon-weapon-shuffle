@@ -67,7 +67,7 @@ function copy (): void {
 function shareByLine (): void {
     const text = document.getElementById('result')!.innerText;
     const encoded = encodeURIComponent(text);
-    const url = `https://social-plugins.line.me/lineit/share?text=${encoded}`;
+    const url = `https://line.me/R/share?text=${encoded}`;
 
     window.open(url, '_blank');
 }

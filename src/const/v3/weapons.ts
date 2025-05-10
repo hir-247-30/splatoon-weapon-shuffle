@@ -109,6 +109,8 @@ export const WEAPON = [
     { name: 'デンタルワイパースミ', lc: 'WIPER', sc: 'デンタルワイパー', role: 'BALANCED', range: 'MID' },
     { name: 'トライストリンガー', lc: 'STRINGER', sc: 'トライストリンガー', role: 'KILL', range: 'LONG'},
     { name: 'トライストリンガーコラボ', lc: 'STRINGER', sc: 'トライストリンガー', role: 'KILL', range: 'LONG'},
+    { name: 'フルイドV', lc: 'STRINGER', sc: 'フルイドV', role: 'BALANCED', range: 'LONG'},
+    { name: 'フルイドVカスタム', lc: 'STRINGER', sc: 'フルイドV', role: 'BALANCED', range: 'LONG'},
     { name: 'LACT-450', lc: 'STRINGER', sc: 'LACT-450', role: 'PAINT', range: 'MID'},
     { name: 'LACT-450デコ', lc: 'STRINGER', sc: 'LACT-450', role: 'PAINT', range: 'MID'},
     { name: 'スクイックリンα', lc: 'CHARGER', sc: 'スクイックリン', role: 'KILL', range: 'MID'},

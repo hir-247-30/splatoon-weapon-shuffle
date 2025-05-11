@@ -66,4 +66,5 @@ npm run report
 
 # ブキ種別一覧
 
+- [スプラトゥーン2](./weaponV2.md)
 - [スプラトゥーン3](./weaponV3.md)

@@ -1,12 +1,15 @@
 import { err, ok } from 'neverthrow';
 import { WEAPON as WEAPON_V3, Weapon as WeaponV3 } from '@const/v3/weapons';
+import { WEAPON as WEAPON_V2, Weapon as WeaponV2 } from '@const/v2/weapons';
 import { chooseRandomly, shuffle, assertUndefined } from '@common/functions';
 import type { Result } from 'neverthrow';
 
-const getWeapons = (): readonly WeaponV3[] => {
+const getWeapons = (): readonly WeaponV3[] | readonly WeaponV2[] => {
     const gameVersion = process.env['GAME_VERSION'];
 
     switch (gameVersion) {
+        case '2':
+            return WEAPON_V2;
         case '3':
             return WEAPON_V3;
         default:
@@ -15,7 +18,7 @@ const getWeapons = (): readonly WeaponV3[] => {
 };
 
 // ブラックリストに登録されているものを省く
-const getBlFilteredWeapon = (): WeaponV3[] => {
+const getBlFilteredWeapon = (): (WeaponV3 | WeaponV2)[] => {
     // 具体的な武器の名前「スプラシューターコラボ」とか
     const weaponBl = (process.env['WEAPON_BLACKLIST'] ?? '').split(',');
 
@@ -33,7 +36,7 @@ const getBlFilteredWeapon = (): WeaponV3[] => {
                  .filter(v => !weaponLcBl.includes(v.lc));
 };
 
-const getRandomWeapon = (): WeaponV3 => {
+const getRandomWeapon = (): WeaponV3 | WeaponV2 => {
     // WEAPON の中からランダムに1つ選ぶ
     const weapons = getBlFilteredWeapon();
     const weapon = weapons[Math.floor(Math.random() * weapons.length)];
@@ -43,7 +46,7 @@ const getRandomWeapon = (): WeaponV3 => {
     return weapon;
 };
 
-const getRandomWeaponPair = (): [WeaponV3, WeaponV3] => {
+const getRandomWeaponPair = (): (WeaponV3 | WeaponV2)[] => {
     // SHORT の武器をランダムに1つ取得
     const weapons = getBlFilteredWeapon();
     const shortRangeWeapons = weapons.filter(w => w.range === 'SHORT');
@@ -71,7 +74,7 @@ const getRandomWeaponPair = (): [WeaponV3, WeaponV3] => {
     return [shortWeapon, secondWeapon];
 };
 
-const getRandomWeaponTrio = (): [WeaponV3, WeaponV3, WeaponV3] => {
+const getRandomWeaponTrio = (): (WeaponV3 | WeaponV2)[] => {
     const weaponPair = getRandomWeaponPair();
 
     // 持っていない射程
@@ -97,7 +100,7 @@ const getRandomWeaponTrio = (): [WeaponV3, WeaponV3, WeaponV3] => {
     return [...weaponPair, thirdWeapon];
 };
 
-const getRandomWeaponTeam = (): [WeaponV3, WeaponV3, WeaponV3, WeaponV3] => {
+const getRandomWeaponTeam = (): (WeaponV3 | WeaponV2)[] => {
     const weaponTrio = getRandomWeaponTrio();
 
     // 2人目の短射程
@@ -125,7 +128,7 @@ const getRandomWeaponTeam = (): [WeaponV3, WeaponV3, WeaponV3, WeaponV3] => {
     return [...weaponTrio, lastWeapon];
 };
 
-const getFreeWeapon = (): WeaponV3 => {
+const getFreeWeapon = (): WeaponV3 | WeaponV3 => {
     const weapons = getWeapons();
     const free = weapons.find(v => v.role === 'FREE');
 
@@ -134,8 +137,8 @@ const getFreeWeapon = (): WeaponV3 => {
     return free;
 };
 
-export const getWeaponsByNumber = (playerNum: number): Result<WeaponV3[], Error> => {
-    let weapons: WeaponV3[];
+export const getWeaponsByNumber = (playerNum: number): Result<(WeaponV3 | WeaponV2)[], Error> => {
+    let weapons: (WeaponV3 | WeaponV2)[];
     switch (playerNum) {
         case 1:
             weapons = [getRandomWeapon()];

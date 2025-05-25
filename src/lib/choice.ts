@@ -47,7 +47,7 @@ const getRandomWeapon = (): WeaponV3 | WeaponV2 => {
 };
 
 const getRandomWeaponPair = (): (WeaponV3 | WeaponV2)[] => {
-    // セーフティモードでない = 編成事故回避ロジックを適用しない
+    // セーフティモードでない = 編成事故防止ロジックを適用しない
     if (!isSafetyMode()) {
         return [getRandomWeapon(), getRandomWeapon()];
     }
@@ -80,7 +80,7 @@ const getRandomWeaponPair = (): (WeaponV3 | WeaponV2)[] => {
 };
 
 const getRandomWeaponTrio = (): (WeaponV3 | WeaponV2)[] => {
-    // セーフティモードでない = 編成事故回避ロジックを適用しない
+    // セーフティモードでない = 編成事故防止ロジックを適用しない
     if (!isSafetyMode()) {
         return [getRandomWeapon(), getRandomWeapon(), getRandomWeapon()];
     }
@@ -111,7 +111,7 @@ const getRandomWeaponTrio = (): (WeaponV3 | WeaponV2)[] => {
 };
 
 const getRandomWeaponTeam = (): (WeaponV3 | WeaponV2)[] => {
-    // セーフティモードでない = 編成事故回避ロジックを適用しない
+    // セーフティモードでない = 編成事故防止ロジックを適用しない
     if (!isSafetyMode()) {
         return [getRandomWeapon(), getRandomWeapon(), getRandomWeapon(), getRandomWeapon()];
     }

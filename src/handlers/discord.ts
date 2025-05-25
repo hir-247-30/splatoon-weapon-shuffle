@@ -9,7 +9,7 @@ import { Client, GatewayIntentBits } from 'discord.js';
 
 dotenv.config({ path: '.env' });
 
-const client = new Client({ 
+export const client = new Client({ 
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,

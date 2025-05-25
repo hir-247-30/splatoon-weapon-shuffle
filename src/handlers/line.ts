@@ -12,7 +12,7 @@ import { getWeaponsByNumber } from '@lib/choice';
 
 dotenv.config({ path: '.env' });
 
-const hono = new Hono();
+export const hono = new Hono();
 const { MessagingApiClient } = messagingApi;
 
 hono.post('/webhook', async (c: Context) => {

@@ -9,7 +9,7 @@ import { getWeaponsByNumber } from '@lib/choice';
 
 dotenv.config({ path: '.env' });
 
-function main (): void {
+export function main (): void {
     const playerNamesResult = claimPlayerNames();
 
     if (playerNamesResult.isErr()) {

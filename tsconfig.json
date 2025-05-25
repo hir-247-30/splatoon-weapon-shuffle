@@ -15,11 +15,13 @@
       "noPropertyAccessFromIndexSignature": true,
       "allowUnusedLabels": false,
       "allowUnreachableCode": false,
+      "types": ["mocha", "chai", "sinon", "sinon-chai"],
       "paths": {
         "@common/*": ["./src/common/*"],
         "@const/*": ["./src/const/*"],
         "@lib/*": ["./src/lib/*"],
         "@services/*": ["./src/services/*"],
+        "@handlers/*": ["./src/handlers/*"],
       },
     },
     "include": ["./src/**/*.ts"],

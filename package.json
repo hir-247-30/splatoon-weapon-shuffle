@@ -26,11 +26,16 @@
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.8",
     "@types/chai": "^5.2.1",
+    "@types/jsdom": "^21.1.7",
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.13.11",
+    "@types/sinon": "^17.0.4",
+    "@types/sinon-chai": "^4.0.0",
     "esbuild": "^0.25.4",
     "eslint": "^9.23.0",
+    "jsdom": "^26.1.0",
     "localtunnel": "^2.0.2",
+    "sinon-chai": "^4.0.0",
     "typescript": "^5.8.2"
   },
   "dependencies": {
@@ -46,6 +51,7 @@
     "mocha": "^11.1.0",
     "neverthrow": "^8.2.0",
     "pino": "^9.6.0",
+    "sinon": "^20.0.0",
     "tsx": "^4.19.3",
     "typescript-eslint": "^8.27.0"
   }

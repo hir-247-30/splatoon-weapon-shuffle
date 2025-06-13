@@ -150,8 +150,8 @@
 | スパイガジェット           | SHELTER | スパイガジェット     | TANK | SHORT |
 | スパイガジェットソレーラ   | SHELTER | スパイガジェット     | TANK | SHORT |
 | スパイガジェット繚         | SHELTER | スパイガジェット     | TANK | SHORT |
-| 24式張替傘・甲             | SHELTER | 24式張替傘           | TANK | SHORT |
-| 24式張替傘・乙             | SHELTER | 24式張替傘           | TANK | SHORT |
+| 24式張替傘・甲             | SHELTER | 24式張替傘           | TANK | MID |
+| 24式張替傘・乙             | SHELTER | 24式張替傘           | TANK | MID |
 
 ## フデ
 

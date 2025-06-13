@@ -104,7 +104,7 @@
 | ブキ名                 | カテゴリ | ブキ種           | 役割     | 射程   |
 |:-----------------------|:---------|:-----------------|:---------|:-------|
 | スプラスピナー         | SPINNER | スプラスピナー   | PAINT    | MID   |
-| スプラスピナーコラボ   | SPINNER | スプラスピナー   | PAINT    | MID   |
+| スプラスピナーコラボ   | SPINNER | スプラスピナー   | BALANCED  | MID   |
 | スプラスピナーPYTN     | SPINNER | スプラスピナー   | PAINT    | MID   |
 | ノーチラス47           | SPINNER | ノーチラス       | KILL     | MID   |
 | ノーチラス79           | SPINNER | ノーチラス       | KILL     | MID   |
@@ -185,8 +185,8 @@
 | ブキ名                   | カテゴリ | ブキ種             | 役割 | 射程 |
 |:-------------------------|:---------|:-------------------|:-----|:----|
 | トライストリンガー       | STRINGER | トライストリンガー | KILL | LONG |
-| トライストリンガーコラボ | STRINGER | トライストリンガー | KILL | LONG |
-| トライストリンガー燈     | STRINGER | トライストリンガー | KILL | LONG |
+| トライストリンガーコラボ | STRINGER | トライストリンガー | BALANCED | LONG |
+| トライストリンガー燈     | STRINGER | トライストリンガー | BALANCED | LONG |
 | LACT-450                | STRINGER | LACT-450         | PAINT | MID |
 | LACT-450デコ            | STRINGER | LACT-450         | PAINT | MID |
 | LACT-450MILK           | STRINGER | LACT-450         | PAINT | MID |

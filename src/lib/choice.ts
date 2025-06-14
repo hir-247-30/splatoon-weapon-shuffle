@@ -23,7 +23,7 @@ const getBlFilteredWeapon = (): (WeaponV3 | WeaponV2)[] => {
     const weaponBl = (process.env['WEAPON_BLACKLIST'] ?? '').split(',');
 
     // 武器種
-    // 例えば「シャープマーカー」ならシャープマーカーとシャープマーカーネオが選出されなくなる
+    // 例えば「シャープマーカー」ならシャープマーカー、シャープマーカーネオ、シャープマーカーGECKが選出されなくなる
     const weaponScBl = (process.env['WEAPON_SMALL_CATEGORY_BLACKLIST'] ?? '').split(',');
 
     // カテゴリ

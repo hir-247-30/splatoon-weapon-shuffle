@@ -192,4 +192,164 @@ describe('choice', () => {
   
         assert.deepEqual(actualLoop, LOOP);
     });
+
+    it('one player choice', () => {
+        const weaponResult = getWeaponsByNumber(1);
+        
+        if (weaponResult.isErr()) {
+            assert.fail('Error occurred while getting 1 weapon');
+        }
+        
+        const weapons = weaponResult.value;
+        assert.equal(weapons.length, 1);
+        assert.exists(weapons[0]);
+    });
+
+    it('invalid player number', () => {
+        const weaponResult = getWeaponsByNumber(0);
+        assert.isTrue(weaponResult.isErr());
+        
+        const weaponResult2 = getWeaponsByNumber(5);
+        assert.isTrue(weaponResult2.isErr());
+        
+        const weaponResult3 = getWeaponsByNumber(-1);
+        assert.isTrue(weaponResult3.isErr());
+    });
+
+    it('safety mode off - two players', () => {
+        const originalEnv = process.env['SAFETY_MODE'];
+        process.env['SAFETY_MODE'] = 'false';
+        
+        try {
+            const weaponResult = getWeaponsByNumber(2);
+            
+            if (weaponResult.isErr()) {
+                assert.fail('Error occurred while getting 2 weapons in safety mode off');
+            }
+            
+            const weapons = weaponResult.value;
+            assert.equal(weapons.length, 2);
+        } finally {
+            // 環境変数を元に戻す
+            if (originalEnv === undefined) {
+                delete process.env['SAFETY_MODE'];
+            } else {
+                process.env['SAFETY_MODE'] = originalEnv;
+            }
+        }
+    });
+
+    it('safety mode off - three players', () => {
+        const originalEnv = process.env['SAFETY_MODE'];
+        process.env['SAFETY_MODE'] = 'false';
+        
+        try {
+            const weaponResult = getWeaponsByNumber(3);
+            
+            if (weaponResult.isErr()) {
+                assert.fail('Error occurred while getting 3 weapons in safety mode off');
+            }
+            
+            const weapons = weaponResult.value;
+            assert.equal(weapons.length, 3);
+        } finally {
+            if (originalEnv === undefined) {
+                delete process.env['SAFETY_MODE'];
+            } else {
+                process.env['SAFETY_MODE'] = originalEnv;
+            }
+        }
+    });
+
+    it('safety mode off - four players', () => {
+        const originalEnv = process.env['SAFETY_MODE'];
+        process.env['SAFETY_MODE'] = 'false';
+        
+        try {
+            const weaponResult = getWeaponsByNumber(4);
+            
+            if (weaponResult.isErr()) {
+                assert.fail('Error occurred while getting 4 weapons in safety mode off');
+            }
+            
+            const weapons = weaponResult.value;
+            assert.equal(weapons.length, 4);
+        } finally {
+            if (originalEnv === undefined) {
+                delete process.env['SAFETY_MODE'];
+            } else {
+                process.env['SAFETY_MODE'] = originalEnv;
+            }
+        }
+    });
+
+    it('blacklist filtering', () => {
+        const originalWeaponBl = process.env['WEAPON_BLACKLIST'];
+        const originalWeaponScBl = process.env['WEAPON_SMALL_CATEGORY_BLACKLIST'];
+        const originalWeaponLcBl = process.env['WEAPON_LARGE_CATEGORY_BLACKLIST'];
+        
+        // ブラックリストを設定
+        process.env['WEAPON_BLACKLIST'] = 'スプラシューターコラボ';
+        process.env['WEAPON_SMALL_CATEGORY_BLACKLIST'] = 'シャープマーカー';
+        process.env['WEAPON_LARGE_CATEGORY_BLACKLIST'] = 'CHARGER';
+        
+        try {
+            const weaponResult = getWeaponsByNumber(2);
+            
+            if (weaponResult.isErr()) {
+                assert.fail('Error occurred with blacklist filtering');
+            }
+            
+            const weapons = weaponResult.value;
+            assert.equal(weapons.length, 2);
+            
+            // ブラックリストに指定した武器が含まれていないことを確認
+            weapons.forEach(weapon => {
+                assert.notEqual(weapon.name, 'スプラシューターコラボ');
+                assert.notEqual(weapon.sc, 'シャープマーカー');
+                assert.notEqual(weapon.lc, 'CHARGER');
+            });
+        } finally {
+            // 環境変数を元に戻す
+            if (originalWeaponBl === undefined) {
+                delete process.env['WEAPON_BLACKLIST'];
+            } else {
+                process.env['WEAPON_BLACKLIST'] = originalWeaponBl;
+            }
+            
+            if (originalWeaponScBl === undefined) {
+                delete process.env['WEAPON_SMALL_CATEGORY_BLACKLIST'];
+            } else {
+                process.env['WEAPON_SMALL_CATEGORY_BLACKLIST'] = originalWeaponScBl;
+            }
+            
+            if (originalWeaponLcBl === undefined) {
+                delete process.env['WEAPON_LARGE_CATEGORY_BLACKLIST'];
+            } else {
+                process.env['WEAPON_LARGE_CATEGORY_BLACKLIST'] = originalWeaponLcBl;
+            }
+        }
+    });
+
+    it('game version v2', () => {
+        const originalGameVersion = process.env['GAME_VERSION'];
+        process.env['GAME_VERSION'] = '2';
+        
+        try {
+            const weaponResult = getWeaponsByNumber(2);
+            
+            if (weaponResult.isErr()) {
+                assert.fail('Error occurred with game version v2');
+            }
+            
+            const weapons = weaponResult.value;
+            assert.equal(weapons.length, 2);
+        } finally {
+            if (originalGameVersion === undefined) {
+                delete process.env['GAME_VERSION'];
+            } else {
+                process.env['GAME_VERSION'] = originalGameVersion;
+            }
+        }
+    });
 });

@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "main": "src/handlers/cli.ts",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "scripts": {
     "report": "tsx src/handlers/cli.ts",
     "discord": "tsx src/handlers/discord.ts",

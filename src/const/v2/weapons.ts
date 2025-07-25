@@ -1,4 +1,6 @@
-export const WEAPON = [
+import type { Weapon } from '@common/types';
+
+export const WEAPON: readonly Weapon[] = [
     { name: 'わかばシューター', lc: 'SHOOTER', sc: 'わかばシューター', role: 'PAINT', range: 'SHORT' },
     { name: 'もみじシューター', lc: 'SHOOTER', sc: 'わかばシューター', role: 'PAINT', range: 'SHORT' },
     { name: 'おちばシューター', lc: 'SHOOTER', sc: 'わかばシューター', role: 'PAINT', range: 'SHORT' },
@@ -129,10 +131,3 @@ export const WEAPON = [
     { name: 'リッター4Kスコープカスタム', lc: 'CHARGER', sc: 'リッター4K', role: 'KILL', range: 'LONG'},
     { name: '自由', lc: 'FREE', sc: '自由', role: 'FREE', range: 'FREE'},
 ] as const;
-
-export type Weapon = typeof WEAPON[number];
-export type WeaponName = Weapon['name'];
-export type WeaponRole = Weapon['role'];
-export type WeaponLc = Weapon['lc'];
-export type WeaponSc = Weapon['sc'];
-export type WeaponRange = Weapon['range'];

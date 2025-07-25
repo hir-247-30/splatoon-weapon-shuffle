@@ -1,9 +1,9 @@
 node_modules/
 logs/
 coverage/
+public/*
+.nyc_output
 .env
 .claude
-.nyc_output
 *.js
-public/*
 !public/index.html

@@ -14,6 +14,7 @@ function main (): void {
 
     if (playerNamesResult.isErr()) {
         errorLog(playerNamesResult.error);
+        console.error(playerNamesResult.error.message);
         return;
     }
 
@@ -22,6 +23,7 @@ function main (): void {
 
     if (weaponResult.isErr()) {
         errorLog(weaponResult.error);
+        console.error(weaponResult.error.message);
         return;
     }
 
@@ -44,6 +46,8 @@ function main (): void {
 
     if (reportResult.isErr()) {
         errorLog(reportResult.error);
+        console.error(reportResult.error.message);
+        return;
     }
 }
 

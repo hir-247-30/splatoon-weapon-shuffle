@@ -1,3 +1,7 @@
+# 公開画面
+
+https://hir-247-30.github.io/splatoon-weapon-shuffle/
+
 # これはなに？
 
 スプラトゥーンの武器をランダムで選出してくれるツールです。

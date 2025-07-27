@@ -20,10 +20,11 @@ function main (): void {
     }
 
     const gameVersion = (document.getElementById('game-version')! as HTMLSelectElement).value as '2' | '3';
-    const safetyMode = (document.getElementById('safety-mode')! as HTMLInputElement).checked;
+    const safetyModeUnchecked = (document.getElementById('safety-mode')! as HTMLInputElement).checked;
     
     // 現状ブラックリストはWeb画面のインタフェースに存在しない
-    const adapter = new WebConfigAdapter({playerNumber: playerNames.length, gameVersion, safetyMode});
+    // チェックボックスは「安全装置を外す」なので、チェックされた場合はsafetyMode=falseにする
+    const adapter = new WebConfigAdapter({playerNumber: playerNames.length, gameVersion, safetyMode: !safetyModeUnchecked});
     const weaponResult = getWeaponsByNumber(adapter);
 
     if (weaponResult.isErr()) {

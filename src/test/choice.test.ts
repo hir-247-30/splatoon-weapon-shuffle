@@ -1,6 +1,7 @@
 import { assert } from 'chai';
 import { describe, it } from 'mocha';
 import { getWeaponsByNumber } from '@lib/choice';
+import { ServerConfigAdapter } from '@adapters/server';
 
 describe('choice', () => {
     const LOOP = 1000;
@@ -8,7 +9,7 @@ describe('choice', () => {
     it('two players choice', () => {
         let actualLoop = 0;
         for (let i = 0; i < LOOP; i++) {
-            const weaponResult = getWeaponsByNumber(2);
+            const weaponResult = getWeaponsByNumber(new ServerConfigAdapter({playerNumber: 2}));
 
             if (weaponResult.isErr()) {
                 assert.deepEqual(weaponResult.isErr(), false, 'Error occurred while getting 2 weapons');
@@ -62,7 +63,7 @@ describe('choice', () => {
     it('three players choice', () => {
         let actualLoop = 0;
         for (let i = 0; i < LOOP; i++) {
-            const weaponResult = getWeaponsByNumber(3);
+            const weaponResult = getWeaponsByNumber(new ServerConfigAdapter({playerNumber: 3}));
 
             if (weaponResult.isErr()) {
                 assert.deepEqual(weaponResult.isErr(), false, 'Error occurred while getting 3 weapons');
@@ -119,8 +120,8 @@ describe('choice', () => {
     it('four players choice', () => {
         let actualLoop = 0;
         for (let i = 0; i < LOOP; i++) {
-            const weaponResult = getWeaponsByNumber(4);
-  
+            const weaponResult = getWeaponsByNumber(new ServerConfigAdapter({playerNumber: 4}));
+
             if (weaponResult.isErr()) {
                 assert.deepEqual(weaponResult.isErr(), false, 'Error occurred while getting 4 weapons');
                 break;
@@ -194,8 +195,8 @@ describe('choice', () => {
     });
 
     it('one player choice', () => {
-        const weaponResult = getWeaponsByNumber(1);
-        
+        const weaponResult = getWeaponsByNumber(new ServerConfigAdapter({playerNumber: 1}));
+
         if (weaponResult.isErr()) {
             assert.fail('Error occurred while getting 1 weapon');
         }
@@ -206,13 +207,13 @@ describe('choice', () => {
     });
 
     it('invalid player number', () => {
-        const weaponResult = getWeaponsByNumber(0);
+        const weaponResult = getWeaponsByNumber(new ServerConfigAdapter({playerNumber: 0}));
         assert.isTrue(weaponResult.isErr());
-        
-        const weaponResult2 = getWeaponsByNumber(5);
+
+        const weaponResult2 = getWeaponsByNumber(new ServerConfigAdapter({playerNumber: 5}));
         assert.isTrue(weaponResult2.isErr());
-        
-        const weaponResult3 = getWeaponsByNumber(-1);
+
+        const weaponResult3 = getWeaponsByNumber(new ServerConfigAdapter({playerNumber: -1}));
         assert.isTrue(weaponResult3.isErr());
     });
 
@@ -221,8 +222,8 @@ describe('choice', () => {
         process.env['SAFETY_MODE'] = 'false';
         
         try {
-            const weaponResult = getWeaponsByNumber(2);
-            
+            const weaponResult = getWeaponsByNumber(new ServerConfigAdapter({playerNumber: 2}));
+
             if (weaponResult.isErr()) {
                 assert.fail('Error occurred while getting 2 weapons in safety mode off');
             }
@@ -244,8 +245,8 @@ describe('choice', () => {
         process.env['SAFETY_MODE'] = 'false';
         
         try {
-            const weaponResult = getWeaponsByNumber(3);
-            
+            const weaponResult = getWeaponsByNumber(new ServerConfigAdapter({playerNumber: 3}));
+
             if (weaponResult.isErr()) {
                 assert.fail('Error occurred while getting 3 weapons in safety mode off');
             }
@@ -266,8 +267,8 @@ describe('choice', () => {
         process.env['SAFETY_MODE'] = 'false';
         
         try {
-            const weaponResult = getWeaponsByNumber(4);
-            
+            const weaponResult = getWeaponsByNumber(new ServerConfigAdapter({playerNumber: 4}));
+
             if (weaponResult.isErr()) {
                 assert.fail('Error occurred while getting 4 weapons in safety mode off');
             }
@@ -294,7 +295,7 @@ describe('choice', () => {
         process.env['WEAPON_LARGE_CATEGORY_BLACKLIST'] = 'CHARGER';
         
         try {
-            const weaponResult = getWeaponsByNumber(2);
+            const weaponResult = getWeaponsByNumber(new ServerConfigAdapter({playerNumber: 2}));
             
             if (weaponResult.isErr()) {
                 assert.fail('Error occurred with blacklist filtering');
@@ -336,8 +337,8 @@ describe('choice', () => {
         process.env['GAME_VERSION'] = '2';
         
         try {
-            const weaponResult = getWeaponsByNumber(2);
-            
+            const weaponResult = getWeaponsByNumber(new ServerConfigAdapter({playerNumber: 2}));
+
             if (weaponResult.isErr()) {
                 assert.fail('Error occurred with game version v2');
             }

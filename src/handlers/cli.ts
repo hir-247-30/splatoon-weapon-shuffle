@@ -6,6 +6,7 @@ import { errorLog } from '@services/loggingService';
 import { assertUndefined } from '@common/functions';
 import { Report } from '@common/types';
 import { getWeaponsByNumber } from '@lib/choice';
+import { ServerConfigAdapter } from '@adapters/server';
 
 dotenv.config({ path: '.env' });
 
@@ -19,7 +20,7 @@ function main (): void {
     }
 
     const playerNames = playerNamesResult.value;
-    const weaponResult = getWeaponsByNumber(playerNames.length);
+    const weaponResult = getWeaponsByNumber(new ServerConfigAdapter({playerNumber: playerNames.length}));
 
     if (weaponResult.isErr()) {
         errorLog(weaponResult.error);

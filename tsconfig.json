@@ -16,6 +16,7 @@
       "allowUnusedLabels": false,
       "allowUnreachableCode": false,
       "paths": {
+        "@adapters/*": ["./src/adapters/*"],
         "@common/*": ["./src/common/*"],
         "@const/*": ["./src/const/*"],
         "@lib/*": ["./src/lib/*"],

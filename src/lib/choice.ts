@@ -1,14 +1,27 @@
 import { err, ok } from 'neverthrow';
 import { WEAPON as WEAPON_V3 } from '@const/v3/weapons';
 import { WEAPON as WEAPON_V2 } from '@const/v2/weapons';
-import type { Weapon } from '@common/types';
+import type { Weapon, WeaponConfig, ConfigAdapter } from '@common/types';
 import { chooseRandomly, shuffle, assertUndefined } from '@common/functions';
 import type { Result } from 'neverthrow';
+import { ServerConfigAdapter } from '@common/adapters';
+
+let currentConfig: WeaponConfig | null = null;
+
+const setWeaponContext = (adapter: ConfigAdapter): void => {
+    currentConfig = adapter.getConfig();
+};
+
+const getWeaponContext = (): WeaponConfig => {
+    if (!currentConfig) {
+        currentConfig = new ServerConfigAdapter().getConfig();
+    }
+    return currentConfig;
+};
 
 const getWeapons = (): readonly Weapon[] => {
-    const gameVersion = process.env['GAME_VERSION'];
-
-    switch (gameVersion) {
+    const config = getWeaponContext();
+    switch (config.gameVersion) {
         case '2':
             return WEAPON_V2;
         case '3':
@@ -20,21 +33,11 @@ const getWeapons = (): readonly Weapon[] => {
 
 // ブラックリストに登録されているものを省く
 const getBlFilteredWeapon = (): Weapon[] => {
-    // 具体的な武器の名前「スプラシューターコラボ」とか
-    const weaponBl = (process.env['WEAPON_BLACKLIST'] ?? '').split(',');
-
-    // 武器種
-    // 例えば「シャープマーカー」ならシャープマーカー、シャープマーカーネオ、シャープマーカーGECKが選出されなくなる
-    const weaponScBl = (process.env['WEAPON_SMALL_CATEGORY_BLACKLIST'] ?? '').split(',');
-
-    // カテゴリ
-    // 「CHARGER」ならチャージャー種全て選出されなくなる
-    const weaponLcBl = (process.env['WEAPON_LARGE_CATEGORY_BLACKLIST'] ?? '').split(',');
-
+    const config = getWeaponContext();
     const weapons = getWeapons();
-    return weapons.filter(v => !weaponBl.includes(v.name))
-                 .filter(v => !weaponScBl.includes(v.sc))
-                 .filter(v => !weaponLcBl.includes(v.lc));
+    return weapons.filter(v => !config.weaponBlacklist.includes(v.name))
+                 .filter(v => !config.weaponSmallCategoryBlacklist.includes(v.sc))
+                 .filter(v => !config.weaponLargeCategoryBlacklist.includes(v.lc));
 };
 
 const getRandomWeapon = (): Weapon => {
@@ -48,8 +51,9 @@ const getRandomWeapon = (): Weapon => {
 };
 
 const getRandomWeaponPair = (): [Weapon, Weapon] => {
+    const config = getWeaponContext();
     // セーフティモードでない = 編成事故防止ロジックを適用しない
-    if (!isSafetyMode()) {
+    if (!config.safetyMode) {
         return [getRandomWeapon(), getRandomWeapon()];
     }
 
@@ -81,8 +85,9 @@ const getRandomWeaponPair = (): [Weapon, Weapon] => {
 };
 
 const getRandomWeaponTrio = (): [Weapon, Weapon, Weapon] => {
+    const config = getWeaponContext();
     // セーフティモードでない = 編成事故防止ロジックを適用しない
-    if (!isSafetyMode()) {
+    if (!config.safetyMode) {
         return [getRandomWeapon(), getRandomWeapon(), getRandomWeapon()];
     }
 
@@ -112,8 +117,9 @@ const getRandomWeaponTrio = (): [Weapon, Weapon, Weapon] => {
 };
 
 const getRandomWeaponTeam = (): [Weapon, Weapon, Weapon, Weapon] => {
+    const config = getWeaponContext();
     // セーフティモードでない = 編成事故防止ロジックを適用しない
-    if (!isSafetyMode()) {
+    if (!config.safetyMode) {
         return [getRandomWeapon(), getRandomWeapon(), getRandomWeapon(), getRandomWeapon()];
     }
 
@@ -153,11 +159,12 @@ const getFreeWeapon = (): Weapon => {
     return free;
 };
 
-const isSafetyMode = (): boolean => {
-    return (process.env['SAFETY_MODE'] === undefined || !!JSON.parse(process.env['SAFETY_MODE']));
-};
-
-export const getWeaponsByNumber = (playerNum: number): Result<Weapon[], Error> => {
+export const getWeaponsByNumber = (
+    playerNum: number, 
+    adapter: ConfigAdapter
+): Result<Weapon[], Error> => {
+    setWeaponContext(adapter);
+    
     let weapons: Weapon[];
     switch (playerNum) {
         case 1:
@@ -179,3 +186,9 @@ export const getWeaponsByNumber = (playerNum: number): Result<Weapon[], Error> =
     const shuffled = shuffle(weapons);
     return ok(shuffled);
 };
+
+// TODO 消す
+export const getWeaponsByNumberLegacy = (playerNum: number): Result<Weapon[], Error> => {
+    return getWeaponsByNumber(playerNum, new ServerConfigAdapter());
+};
+

@@ -9,6 +9,7 @@ import { errorLog } from '@services/loggingService';
 import { assertUndefined } from '@common/functions';
 import { Report } from '@common/types';
 import { getWeaponsByNumber } from '@lib/choice';
+import { LineConfigAdapter } from '@common/adapters';
 
 dotenv.config({ path: '.env' });
 
@@ -41,7 +42,8 @@ hono.post('/webhook', async (c: Context) => {
     }
 
     const playerNames = playerNamesResult.value;
-    const weaponResult = getWeaponsByNumber(playerNames.length);
+    const adapter = new LineConfigAdapter();
+    const weaponResult = getWeaponsByNumber(playerNames.length, adapter);
 
     if (weaponResult.isErr()) {
         errorLog(weaponResult.error);

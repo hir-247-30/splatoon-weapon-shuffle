@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import { describe, it } from 'mocha';
-import { getWeaponsByNumber } from '@lib/choice';
+import { getWeaponsByNumberLegacy as getWeaponsByNumber } from '@lib/choice';
 
 describe('choice', () => {
     const LOOP = 1000;

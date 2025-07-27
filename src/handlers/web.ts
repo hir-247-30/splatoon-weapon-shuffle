@@ -1,6 +1,7 @@
 import { assertUndefined } from '@common/functions';
 import { Report } from '@common/types';
 import { getWeaponsByNumber } from '@lib/choice';
+import { WebConfigAdapter } from '@common/adapters';
 import { buildMessage } from '@services/messageService';
 
 function main (): void {
@@ -18,7 +19,11 @@ function main (): void {
         return;
     }
 
-    const weaponResult = getWeaponsByNumber(playerNames.length);
+    const gameVersion = (document.getElementById('game-version')! as HTMLSelectElement).value as '2' | '3';
+    const safetyMode = (document.getElementById('safety-mode')! as HTMLInputElement).checked;
+    
+    const adapter = new WebConfigAdapter(gameVersion, safetyMode);
+    const weaponResult = getWeaponsByNumber(playerNames.length, adapter);
 
     if (weaponResult.isErr()) {
         error('うまく選出できなかったので、リトライしてください！');

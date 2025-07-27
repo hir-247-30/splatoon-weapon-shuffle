@@ -40,9 +40,25 @@
       margin-bottom: 0.2em;
       font-weight: bold;
     }
-    input[type="text"] {
+    input[type="text"], select {
       padding: 0.5em;
       font-size: 1em;
+    }
+    .options {
+      margin-bottom: 1em;
+      padding: 1em;
+      background-color: #f8f9fa;
+      border-radius: 4px;
+      border: 1px solid #dee2e6;
+    }
+    .options .input-group {
+      margin-bottom: 0.8em;
+    }
+    .options .input-group:last-child {
+      margin-bottom: 0;
+    }
+    input[type="checkbox"] {
+      margin-right: 0.5em;
     }
     .main-button {
       padding: 0.6em 1.2em;
@@ -98,6 +114,23 @@
       <div class="input-group">
         <label for="player4">プレイヤー名その4</label>
         <input type="text" id="player4" maxlength="20">
+      </div>
+    </div>
+
+    <div class="options">
+      <div class="input-group">
+        <label for="game-version">ゲームバージョン</label>
+        <select id="game-version">
+          <option value="3">スプラトゥーン3</option>
+          <option value="2">スプラトゥーン2</option>
+        </select>
+      </div>
+      
+      <div class="input-group">
+        <label>
+          <input type="checkbox" id="safety-mode" checked>
+          編成事故防止ロジックを有効にする
+        </label>
       </div>
     </div>
 

@@ -5,7 +5,7 @@ import { errorLog } from '@services/loggingService';
 import { assertUndefined } from '@common/functions';
 import { Report } from '@common/types';
 import { getWeaponsByNumber } from '@lib/choice';
-import { DiscordConfigAdapter } from '@common/adapters';
+import { ServerConfigAdapter } from '@adapters/server';
 import { Client, GatewayIntentBits } from 'discord.js';
 
 dotenv.config({ path: '.env' });
@@ -36,7 +36,7 @@ client.on('messageCreate', message => {
     }
 
     const playerNames = playerNamesResult.value;
-    const adapter = new DiscordConfigAdapter();
+    const adapter = new ServerConfigAdapter();
     const weaponResult = getWeaponsByNumber(playerNames.length, adapter);
 
     if (weaponResult.isErr()) {

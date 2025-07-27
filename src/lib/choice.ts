@@ -1,18 +1,18 @@
 import { err, ok } from 'neverthrow';
 import { WEAPON as WEAPON_V3 } from '@const/v3/weapons';
 import { WEAPON as WEAPON_V2 } from '@const/v2/weapons';
-import type { Weapon, WeaponConfig, ConfigAdapter } from '@common/types';
+import type { Weapon, Config, ConfigAdapter } from '@common/types';
 import { chooseRandomly, shuffle, assertUndefined } from '@common/functions';
 import type { Result } from 'neverthrow';
-import { ServerConfigAdapter } from '@common/adapters';
+import { ServerConfigAdapter } from '@adapters/server';
 
-let currentConfig: WeaponConfig | null = null;
+let currentConfig: Config | null = null;
 
 const setWeaponContext = (adapter: ConfigAdapter): void => {
     currentConfig = adapter.getConfig();
 };
 
-const getWeaponContext = (): WeaponConfig => {
+const getWeaponContext = (): Config => {
     if (!currentConfig) {
         currentConfig = new ServerConfigAdapter().getConfig();
     }

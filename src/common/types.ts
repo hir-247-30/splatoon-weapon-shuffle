@@ -13,14 +13,19 @@ export type Report = {
     weapon_range: string,
 };
 
-export interface WeaponConfig {
-    gameVersion                 : '2' | '3';
-    safetyMode                  : boolean;
-    weaponBlacklist             : string[];
-    weaponSmallCategoryBlacklist: string[];
+export interface Config {
+    gameVersion: '2' | '3';
+    safetyMode: boolean;
+    // 具体的な武器の名前「スプラシューターコラボ」とか
+    weaponBlacklist: string[];
+    // 武器種
+    // 例えば「シャープマーカー」ならシャープマーカー、シャープマーカーネオ、シャープマーカーGECKが選出されなくなる
+    weaponSmallCategoryBlacklist: string[]; 
+    // カテゴリ
+    //「CHARGER」ならチャージャー種全て選出されなくなる
     weaponLargeCategoryBlacklist: string[];
 };
 
 export interface ConfigAdapter {
-    getConfig(): WeaponConfig;
+    getConfig(): Config;
 };

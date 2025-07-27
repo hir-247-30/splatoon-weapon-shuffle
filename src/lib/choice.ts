@@ -187,8 +187,4 @@ export const getWeaponsByNumber = (
     return ok(shuffled);
 };
 
-// TODO 消す
-export const getWeaponsByNumberLegacy = (playerNum: number): Result<Weapon[], Error> => {
-    return getWeaponsByNumber(playerNum, new ServerConfigAdapter());
-};
 

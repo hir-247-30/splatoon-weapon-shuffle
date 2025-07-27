@@ -41,17 +41,32 @@ describe('loggingService', () => {
             
             errorLog(testObject);
             
-            setTimeout(() => {
+            // ファイル書き込み完了を確実に待つ
+            const checkLogFile = (attempts: number = 0) => {
+                if (attempts > 50) {  // 5秒間待機
+                    done(new Error('Log file was not created within timeout'));
+                    return;
+                }
+                
                 try {
-                    const logContent = fs.readFileSync(logPath, 'utf8');
-                    assert.include(logContent, 'value', 'Log should contain object values');
-                    assert.include(logContent, '123', 'Log should contain object numbers');
+                    if (fs.existsSync(logPath)) {
+                        const logContent = fs.readFileSync(logPath, 'utf8');
+                        // pinoのJSON出力形式に合わせて検証
+                        if (logContent.includes('"key":"value"') && logContent.includes('"number":123')) {
+                            assert.include(logContent, '"key":"value"', 'Log should contain object key-value pair');
+                            assert.include(logContent, '"number":123', 'Log should contain object number');
+                            done();
+                            return;
+                        }
+                    }
                     
-                    done();
+                    setTimeout(() => checkLogFile(attempts + 1), 100);
                 } catch (error) {
                     done(error);
                 }
-            }, 100);
+            };
+            
+            checkLogFile();
         });
     });
 });

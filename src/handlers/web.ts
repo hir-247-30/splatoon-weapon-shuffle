@@ -23,8 +23,8 @@ function main (): void {
     const safetyMode = (document.getElementById('safety-mode')! as HTMLInputElement).checked;
     
     // 現状ブラックリストはWeb画面のインタフェースに存在しない
-    const adapter = new WebConfigAdapter({gameVersion, safetyMode});
-    const weaponResult = getWeaponsByNumber(playerNames.length, adapter);
+    const adapter = new WebConfigAdapter({playerNumber: playerNames.length, gameVersion, safetyMode});
+    const weaponResult = getWeaponsByNumber(adapter);
 
     if (weaponResult.isErr()) {
         error('うまく選出できなかったので、リトライしてください！');

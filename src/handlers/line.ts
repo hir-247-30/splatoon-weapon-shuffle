@@ -42,8 +42,7 @@ hono.post('/webhook', async (c: Context) => {
     }
 
     const playerNames = playerNamesResult.value;
-    const adapter = new ServerConfigAdapter();
-    const weaponResult = getWeaponsByNumber(playerNames.length, adapter);
+    const weaponResult = getWeaponsByNumber(new ServerConfigAdapter({playerNumber: playerNames.length}));
 
     if (weaponResult.isErr()) {
         errorLog(weaponResult.error);

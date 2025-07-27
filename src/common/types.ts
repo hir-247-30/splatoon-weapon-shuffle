@@ -14,16 +14,12 @@ export type Report = {
 };
 
 export interface Config {
-    gameVersion: '2' | '3';
-    safetyMode: boolean;
-    // 具体的な武器の名前「スプラシューターコラボ」とか
-    weaponBlacklist: string[];
-    // 武器種
-    // 例えば「シャープマーカー」ならシャープマーカー、シャープマーカーネオ、シャープマーカーGECKが選出されなくなる
-    weaponSmallCategoryBlacklist: string[]; 
-    // カテゴリ
-    //「CHARGER」ならチャージャー種全て選出されなくなる
-    weaponLargeCategoryBlacklist: string[];
+    playerNumber                : number;
+    gameVersion                 : '2' | '3';
+    safetyMode                  : boolean;
+    weaponBlacklist             : string[]; // 具体的な武器の名前「スプラシューターコラボ」とか
+    weaponSmallCategoryBlacklist: string[]; // 武器種 例えば「シャープマーカー」ならシャープマーカー、シャープマーカーネオ、シャープマーカーGECKが選出されなくなる
+    weaponLargeCategoryBlacklist: string[]; // カテゴリ 「CHARGER」ならチャージャー種全て選出されなくなる
 };
 
 export interface ConfigAdapter {

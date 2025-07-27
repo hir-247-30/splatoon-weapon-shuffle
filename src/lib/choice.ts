@@ -159,14 +159,11 @@ const getFreeWeapon = (): Weapon => {
     return free;
 };
 
-export const getWeaponsByNumber = (
-    playerNum: number, 
-    adapter: ConfigAdapter
-): Result<Weapon[], Error> => {
+export const getWeaponsByNumber = (adapter: ConfigAdapter): Result<Weapon[], Error> => {
     setWeaponContext(adapter);
     
     let weapons: Weapon[];
-    switch (playerNum) {
+    switch (currentConfig?.playerNumber) {
         case 1:
             weapons = [getRandomWeapon()];
             break;

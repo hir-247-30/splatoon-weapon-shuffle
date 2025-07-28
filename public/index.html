@@ -2,58 +2,169 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>スプラトゥーン ブキシャッフル</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+    :root {
+      --primary-color: #667eea;
+      --secondary-color: #764ba2;
+      --text-color: #2d3748;
+      --text-secondary: #4a5568;
+      --background-white: rgba(255, 255, 255, 0.95);
+      --background-white-fallback: rgba(255, 255, 255, 0.98);
+      --background-light: #f7fafc;
+      --background-lighter: #edf2f7;
+      --border-color: #e2e8f0;
+      --border-color-hover: #cbd5e0;
+      --error-color: #e53e3e;
+      --error-bg: #fed7d7;
+      --warning-color: #ed8936;
+      
+      --border-radius-sm: 12px;
+      --border-radius-md: 16px;
+      --border-radius-lg: 24px;
+      --border-radius-xl: 25px;
+      
+      --spacing-xs: 0.5em;
+      --spacing-sm: 0.8em;
+      --spacing-md: 1em;
+      --spacing-lg: 1.2em;
+      --spacing-xl: 1.5em;
+      --spacing-2xl: 2em;
+      --spacing-3xl: 2.5em;
+      
+      --shadow-sm: 0 4px 12px rgba(0,0,0,0.1);
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.05);
+      --shadow-lg: 0 8px 25px rgba(0,0,0,0.2);
+      --shadow-primary: 0 8px 25px rgba(102, 126, 234, 0.3);
+      --shadow-primary-hover: 0 12px 35px rgba(102, 126, 234, 0.4);
+      --shadow-container: 0 20px 50px rgba(0,0,0,0.1), 0 0 0 1px rgba(255,255,255,0.05);
+      
+      --font-size-sm: 0.85em;
+      --font-size-base: 1em;
+      --font-size-md: 1.05em;
+      --font-size-lg: 1.1em;
+      --font-size-xl: 1.8em;
+      --font-size-2xl: 2.5em;
+      
+      --transition: all 0.3s ease;
+    }
     
     * {
       box-sizing: border-box;
     }
     
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
-      padding: 2em;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: var(--spacing-md);
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
       min-height: 100vh;
-      color: #2d3748;
+      color: var(--text-color);
+    }
+    
+    @media (min-width: 480px) {
+      body {
+        padding: var(--spacing-xl);
+      }
+    }
+    
+    @media (min-width: 768px) {
+      body {
+        padding: var(--spacing-2xl);
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .container {
+        max-width: 800px;
+      }
     }
     
     h3.title {
       text-align: center;
-      margin-bottom: 1.2em;
-      font-size: 2.5em;
+      margin-bottom: var(--spacing-md);
+      font-size: var(--font-size-xl);
       font-weight: 700;
       color: #fff;
       text-shadow: 0 4px 20px rgba(0,0,0,0.3);
       letter-spacing: -0.5px;
     }
     
+    @media (min-width: 768px) {
+      h3.title {
+        font-size: var(--font-size-2xl);
+        margin-bottom: var(--spacing-lg);
+      }
+    }
+    
     .container {
       max-width: 680px;
       margin: 0 auto;
-      padding: 2.5em;
-      background: rgba(255, 255, 255, 0.95);
+      padding: var(--spacing-xl);
+      background: var(--background-white-fallback);
+      background: var(--background-white);
       backdrop-filter: blur(10px);
-      border-radius: 24px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.1), 0 0 0 1px rgba(255,255,255,0.05);
+      border-radius: var(--border-radius-md);
+      box-shadow: var(--shadow-container);
       border: 1px solid rgba(255,255,255,0.2);
     }
+    
+    @supports not (backdrop-filter: blur(10px)) {
+      .container {
+        background: var(--background-white-fallback);
+      }
+    }
+    
+    @media (min-width: 768px) {
+      .container {
+        padding: var(--spacing-3xl);
+        border-radius: var(--border-radius-lg);
+      }
+    }
     .error {
-      color: #e53e3e;
-      background: #fed7d7;
-      padding: 1em;
-      border-radius: 12px;
-      margin-bottom: 1.5em;
+      color: var(--error-color);
+      background: var(--error-bg);
+      padding: var(--spacing-md);
+      border-radius: var(--border-radius-sm);
+      margin-bottom: var(--spacing-xl);
       display: none;
-      border-left: 4px solid #e53e3e;
+      border-left: 4px solid var(--error-color);
       font-weight: 500;
     }
     .inputs {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5em;
-      margin-bottom: 2em;
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-2xl);
+    }
+    
+    @media (min-width: 480px) {
+      .inputs {
+        gap: var(--spacing-lg);
+      }
+    }
+    
+    @media (min-width: 768px) {
+      .inputs {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-xl);
+      }
     }
     
     .input-group {
@@ -62,33 +173,40 @@
     }
     
     label {
-      margin-bottom: 0.5em;
+      margin-bottom: var(--spacing-xs);
       font-weight: 600;
-      color: #4a5568;
+      color: var(--text-secondary);
       font-size: 0.9em;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
     
     input[type="text"], select {
-      padding: 1em;
-      font-size: 1em;
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
+      padding: var(--spacing-sm);
+      font-size: var(--font-size-base);
+      border: 2px solid var(--border-color);
+      border-radius: var(--border-radius-sm);
       background: #fff;
-      transition: all 0.3s ease;
+      transition: var(--transition);
       font-family: inherit;
+      min-height: 44px;
+    }
+    
+    @media (min-width: 768px) {
+      input[type="text"], select {
+        padding: var(--spacing-md);
+      }
     }
     
     input[type="text"]:focus, select:focus {
       outline: none;
-      border-color: #667eea;
+      border-color: var(--primary-color);
       box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
       transform: translateY(-1px);
     }
     
     input[type="text"]:hover, select:hover {
-      border-color: #cbd5e0;
+      border-color: var(--border-color-hover);
     }
     .options {
       margin-bottom: 1em;
@@ -104,94 +222,96 @@
       margin-bottom: 0;
     }
     input[type="checkbox"] {
-      margin-right: 0.8em;
-      width: 18px;
-      height: 18px;
-      accent-color: #667eea;
+      margin-right: var(--spacing-sm);
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      min-height: 20px;
+      accent-color: var(--primary-color);
       cursor: pointer;
     }
     
-    @media (max-width: 768px) {
-      .inputs {
-        grid-template-columns: 1fr;
-        gap: 1em;
-      }
-      
-      .container {
-        margin: 1em;
-        padding: 1.5em;
-      }
-      
-      h3.title {
-        font-size: 2em;
-        margin-bottom: 1.5em;
-      }
-      
-      .sub-button {
-        display: block;
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 0.5em;
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-xs);
+      margin-top: var(--spacing-md);
+    }
+    
+    @media (min-width: 480px) {
+      .button-group {
+        flex-direction: row;
+        gap: var(--spacing-md);
       }
     }
+    
+    .sub-button {
+      padding: var(--spacing-sm) var(--spacing-xl);
+      font-size: 0.9em;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: var(--border-radius-xl);
+      background: var(--background-light);
+      color: var(--text-secondary);
+      border: 2px solid var(--border-color);
+      transition: var(--transition);
+      font-family: inherit;
+      min-height: 44px;
+      flex: 1;
+    }
+    
+    .sub-button:hover {
+      background: var(--background-lighter);
+      border-color: var(--border-color-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
     .main-button {
-      padding: 1.2em 2em;
-      font-size: 1.1em;
+      padding: var(--spacing-lg) var(--spacing-2xl);
+      font-size: var(--font-size-lg);
       font-weight: 600;
       cursor: pointer;
-      margin-bottom: 2em;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      margin-bottom: var(--spacing-2xl);
+      border-radius: var(--border-radius-md);
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
       color: white;
       border: none;
-      transition: all 0.3s ease;
+      transition: var(--transition);
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+      box-shadow: var(--shadow-primary);
       font-family: inherit;
       width: 100%;
+      min-height: 48px;
     }
     
     .main-button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+      box-shadow: var(--shadow-primary-hover);
     }
     
     .main-button:active {
       transform: translateY(0);
     }
-    .sub-button {
-      padding: 0.8em 1.5em;
-      font-size: 0.9em;
-      font-weight: 500;
-      cursor: pointer;
-      margin-top: 1em;
-      margin-right: 1em;
-      border-radius: 25px;
-      background: #f7fafc;
-      color: #4a5568;
-      border: 2px solid #e2e8f0;
-      transition: all 0.3s ease;
-      font-family: inherit;
-    }
-    
-    .sub-button:hover {
-      background: #edf2f7;
-      border-color: #cbd5e0;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
     .result {
-      padding: 2em;
+      padding: 1.5em;
       border: 2px solid #e2e8f0;
       background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
-      border-radius: 20px;
+      border-radius: 16px;
       white-space: pre-wrap;
       font-family: inherit;
-      font-size: 1.05em;
+      font-size: 1em;
       line-height: 1.6;
       box-shadow: 0 4px 20px rgba(0,0,0,0.05);
       margin-bottom: 1em;
+    }
+    
+    @media (min-width: 768px) {
+      .result {
+        padding: 2em;
+        border-radius: 20px;
+        font-size: 1.05em;
+      }
     }
     details {
       margin-bottom: 2em;
@@ -202,19 +322,25 @@
     }
     
     summary {
-      padding: 1em 1.5em;
-      background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+      padding: var(--spacing-md) var(--spacing-xl);
+      background: linear-gradient(135deg, var(--background-light) 0%, var(--background-lighter) 100%);
       cursor: pointer;
       font-size: 0.95em;
       font-weight: 600;
-      color: #4a5568;
-      border-bottom: 2px solid #e2e8f0;
-      transition: all 0.3s ease;
+      color: var(--text-secondary);
+      border-bottom: 2px solid var(--border-color);
+      transition: var(--transition);
       user-select: none;
+      outline: none;
+    }
+    
+    summary:focus {
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      background: linear-gradient(135deg, var(--background-lighter) 0%, var(--border-color) 100%);
     }
     
     summary:hover {
-      background: linear-gradient(135deg, #edf2f7 0%, #e2e8f0 100%);
+      background: linear-gradient(135deg, var(--background-lighter) 0%, var(--border-color) 100%);
     }
     
     .details-content {
@@ -233,7 +359,7 @@
     }
     .tooltip .tooltiptext {
       visibility: hidden;
-      width: 320px;
+      width: 280px;
       background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
       color: #fff;
       text-align: center;
@@ -243,13 +369,20 @@
       z-index: 1000;
       bottom: 150%;
       left: 50%;
-      margin-left: -160px;
+      margin-left: -140px;
       opacity: 0;
       transition: all 0.3s ease;
       font-size: 0.85em;
       line-height: 1.4;
       box-shadow: 0 8px 25px rgba(0,0,0,0.2);
       font-weight: 500;
+    }
+    
+    @media (min-width: 768px) {
+      .tooltip .tooltiptext {
+        width: 320px;
+        margin-left: -160px;
+      }
     }
     
     .tooltip .tooltiptext::after {
@@ -263,10 +396,17 @@
       border-color: #2d3748 transparent transparent transparent;
     }
     
-    .tooltip:hover .tooltiptext {
+    .tooltip:hover .tooltiptext,
+    .tooltip:focus .tooltiptext {
       visibility: visible;
       opacity: 1;
       transform: translateY(-4px);
+    }
+    
+    .tooltip:focus {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+      border-radius: 4px;
     }
   </style>
 </head>
@@ -277,10 +417,11 @@
 
     <div class="input-group" style="margin-bottom: 1.5em;">
       <label for="game-version">タイトル</label>
-      <select id="game-version">
+      <select id="game-version" aria-describedby="game-version-desc">
         <option value="3">スプラトゥーン3</option>
         <option value="2">スプラトゥーン2</option>
       </select>
+      <div id="game-version-desc" class="sr-only">ゲームのバージョンを選択してください</div>
     </div>
 
     <div class="inputs">
@@ -303,25 +444,28 @@
     </div>
 
     <details>
-      <summary>詳細設定</summary>
-      <div class="details-content">
+      <summary role="button" tabindex="0" aria-expanded="false" aria-controls="advanced-settings">詳細設定</summary>
+      <div id="advanced-settings" class="details-content">
         <div class="input-group">
           <label>
             <span class="warning-icon">⚠️</span>
             <input type="checkbox" id="safety-mode">
-            <span class="tooltip">安全装置を外す
-              <span class="tooltiptext">これをオンにすると編成事故ロジックが無効化され、選出がカオスになります</span>
+            <span class="tooltip" role="button" tabindex="0" aria-describedby="safety-tooltip">安全装置を外す
+              <span id="safety-tooltip" class="tooltiptext" role="tooltip">これをオンにすると編成事故ロジックが無効化され、選出がカオスになります</span>
             </span>
           </label>
         </div>
       </div>
     </details>
 
-    <button id="weapon-select" class="main-button">ブキを選出</button>
+    <button id="weapon-select" class="main-button" aria-describedby="result">ブキを選出</button>
 
-    <div id="result" class="result">※ ここに結果が出ます。</div>
-    <button id="copy-result" class="sub-button" style="margin-top: 1em;">結果をコピーする</button>
-    <button id="share-line" class="sub-button" style="margin-left: 1em;">LINEで結果を共有する</button>
+    <div id="result" class="result" role="region" aria-live="polite" aria-label="ブキ選出結果">※ ここに結果が出ます。</div>
+    <div class="button-group">
+      <button id="copy-result" class="sub-button" aria-describedby="copy-status">結果をコピーする</button>
+      <div id="copy-status" class="sr-only" aria-live="polite"></div>
+      <button id="share-line" class="sub-button" aria-label="LINEで結果を共有する">LINEで結果を共有する</button>
+    </div>
   </div>
   <script src="splatoon.js"></script>
 </body>

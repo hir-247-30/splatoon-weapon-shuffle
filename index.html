@@ -2,273 +2,12 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>スプラトゥーン ブキシャッフル</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-    
-    * {
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 2em;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
-      color: #2d3748;
-    }
-    
-    h3.title {
-      text-align: center;
-      margin-bottom: 1.2em;
-      font-size: 2.5em;
-      font-weight: 700;
-      color: #fff;
-      text-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      letter-spacing: -0.5px;
-    }
-    
-    .container {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 2.5em;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      border-radius: 24px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.1), 0 0 0 1px rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-    .error {
-      color: #e53e3e;
-      background: #fed7d7;
-      padding: 1em;
-      border-radius: 12px;
-      margin-bottom: 1.5em;
-      display: none;
-      border-left: 4px solid #e53e3e;
-      font-weight: 500;
-    }
-    .inputs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5em;
-      margin-bottom: 2em;
-    }
-    
-    .input-group {
-      display: flex;
-      flex-direction: column;
-    }
-    
-    label {
-      margin-bottom: 0.5em;
-      font-weight: 600;
-      color: #4a5568;
-      font-size: 0.9em;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    
-    input[type="text"], select {
-      padding: 1em;
-      font-size: 1em;
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      background: #fff;
-      transition: all 0.3s ease;
-      font-family: inherit;
-    }
-    
-    input[type="text"]:focus, select:focus {
-      outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-      transform: translateY(-1px);
-    }
-    
-    input[type="text"]:hover, select:hover {
-      border-color: #cbd5e0;
-    }
-    .options {
-      margin-bottom: 1em;
-      padding: 1em;
-      background-color: #f8f9fa;
-      border-radius: 4px;
-      border: 1px solid #dee2e6;
-    }
-    .options .input-group {
-      margin-bottom: 0.8em;
-    }
-    .options .input-group:last-child {
-      margin-bottom: 0;
-    }
-    input[type="checkbox"] {
-      margin-right: 0.8em;
-      width: 18px;
-      height: 18px;
-      accent-color: #667eea;
-      cursor: pointer;
-    }
-    
-    @media (max-width: 768px) {
-      .inputs {
-        grid-template-columns: 1fr;
-        gap: 1em;
-      }
-      
-      .container {
-        margin: 1em;
-        padding: 1.5em;
-      }
-      
-      h3.title {
-        font-size: 2em;
-        margin-bottom: 1.5em;
-      }
-      
-      .sub-button {
-        display: block;
-        width: 100%;
-        margin-right: 0;
-        margin-bottom: 0.5em;
-      }
-    }
-    .main-button {
-      padding: 1.2em 2em;
-      font-size: 1.1em;
-      font-weight: 600;
-      cursor: pointer;
-      margin-bottom: 2em;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      border: none;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-      font-family: inherit;
-      width: 100%;
-    }
-    
-    .main-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
-    }
-    
-    .main-button:active {
-      transform: translateY(0);
-    }
-    .sub-button {
-      padding: 0.8em 1.5em;
-      font-size: 0.9em;
-      font-weight: 500;
-      cursor: pointer;
-      margin-top: 1em;
-      margin-right: 1em;
-      border-radius: 25px;
-      background: #f7fafc;
-      color: #4a5568;
-      border: 2px solid #e2e8f0;
-      transition: all 0.3s ease;
-      font-family: inherit;
-    }
-    
-    .sub-button:hover {
-      background: #edf2f7;
-      border-color: #cbd5e0;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    .result {
-      padding: 2em;
-      border: 2px solid #e2e8f0;
-      background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
-      border-radius: 20px;
-      white-space: pre-wrap;
-      font-family: inherit;
-      font-size: 1.05em;
-      line-height: 1.6;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-      margin-bottom: 1em;
-    }
-    details {
-      margin-bottom: 2em;
-      border: 2px solid #e2e8f0;
-      border-radius: 16px;
-      overflow: hidden;
-      background: #fff;
-    }
-    
-    summary {
-      padding: 1em 1.5em;
-      background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
-      cursor: pointer;
-      font-size: 0.95em;
-      font-weight: 600;
-      color: #4a5568;
-      border-bottom: 2px solid #e2e8f0;
-      transition: all 0.3s ease;
-      user-select: none;
-    }
-    
-    summary:hover {
-      background: linear-gradient(135deg, #edf2f7 0%, #e2e8f0 100%);
-    }
-    
-    .details-content {
-      padding: 1.5em;
-      background: #fff;
-    }
-    .warning-icon {
-      color: #ed8936;
-      margin-right: 0.5em;
-      font-size: 1.1em;
-    }
-    .tooltip {
-      position: relative;
-      display: inline-block;
-      cursor: help;
-    }
-    .tooltip .tooltiptext {
-      visibility: hidden;
-      width: 320px;
-      background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
-      color: #fff;
-      text-align: center;
-      border-radius: 12px;
-      padding: 12px 16px;
-      position: absolute;
-      z-index: 1000;
-      bottom: 150%;
-      left: 50%;
-      margin-left: -160px;
-      opacity: 0;
-      transition: all 0.3s ease;
-      font-size: 0.85em;
-      line-height: 1.4;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-      font-weight: 500;
-    }
-    
-    .tooltip .tooltiptext::after {
-      content: "";
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      margin-left: -6px;
-      border-width: 6px;
-      border-style: solid;
-      border-color: #2d3748 transparent transparent transparent;
-    }
-    
-    .tooltip:hover .tooltiptext {
-      visibility: visible;
-      opacity: 1;
-      transform: translateY(-4px);
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="splatoon.css">
 </head>
 <body>
   <h3 class="title">スプラトゥーン ブキシャッフル</h3>
@@ -277,10 +16,11 @@
 
     <div class="input-group" style="margin-bottom: 1.5em;">
       <label for="game-version">タイトル</label>
-      <select id="game-version">
+      <select id="game-version" aria-describedby="game-version-desc">
         <option value="3">スプラトゥーン3</option>
         <option value="2">スプラトゥーン2</option>
       </select>
+      <div id="game-version-desc" class="sr-only">ゲームのバージョンを選択してください</div>
     </div>
 
     <div class="inputs">
@@ -303,25 +43,28 @@
     </div>
 
     <details>
-      <summary>詳細設定</summary>
-      <div class="details-content">
+      <summary role="button" tabindex="0" aria-expanded="false" aria-controls="advanced-settings">詳細設定</summary>
+      <div id="advanced-settings" class="details-content">
         <div class="input-group">
           <label>
             <span class="warning-icon">⚠️</span>
             <input type="checkbox" id="safety-mode">
-            <span class="tooltip">安全装置を外す
-              <span class="tooltiptext">これをオンにすると編成事故ロジックが無効化され、選出がカオスになります</span>
+            <span class="tooltip" role="button" tabindex="0" aria-describedby="safety-tooltip">安全装置を外す
+              <span id="safety-tooltip" class="tooltiptext" role="tooltip">これをオンにすると編成事故ロジックが無効化され、選出がカオスになります</span>
             </span>
           </label>
         </div>
       </div>
     </details>
 
-    <button id="weapon-select" class="main-button">ブキを選出</button>
+    <button id="weapon-select" class="main-button" aria-describedby="result">ブキを選出</button>
 
-    <div id="result" class="result">※ ここに結果が出ます。</div>
-    <button id="copy-result" class="sub-button" style="margin-top: 1em;">結果をコピーする</button>
-    <button id="share-line" class="sub-button" style="margin-left: 1em;">LINEで結果を共有する</button>
+    <div id="result" class="result" role="region" aria-live="polite" aria-label="ブキ選出結果">※ ここに結果が出ます。</div>
+    <div class="button-group">
+      <button id="copy-result" class="sub-button" aria-describedby="copy-status">結果をコピーする</button>
+      <div id="copy-status" class="sr-only" aria-live="polite"></div>
+      <button id="share-line" class="sub-button" aria-label="LINEで結果を共有する">LINEで結果を共有する</button>
+    </div>
   </div>
   <script src="splatoon.js"></script>
 </body>

@@ -7,3 +7,4 @@ public/*
 .claude
 *.js
 !public/index.html
+!public/splatoon.css

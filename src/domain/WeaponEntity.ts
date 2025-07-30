@@ -23,6 +23,7 @@ export class WeaponEntity {
         }
     }
 
+    // ブラックリストに登録されているものを省く
     private getBlFilteredWeapon (): Weapon[] {
         const weapons = this.getAllWeapons();
         return weapons.filter(v => !this.currentConfig.weaponBlacklist.includes(v.name))
@@ -30,6 +31,7 @@ export class WeaponEntity {
                      .filter(v => !this.currentConfig.weaponLargeCategoryBlacklist.includes(v.lc));
     }
 
+    // ブキの中からランダムに1つ選ぶ
     private getRandomWeapon (): Weapon {
         const weapons = this.getBlFilteredWeapon();
         const weapon = weapons[Math.floor(Math.random() * weapons.length)];
@@ -40,10 +42,12 @@ export class WeaponEntity {
     }
 
     private getRandomWeaponPair (): [Weapon, Weapon] {
+        // セーフティモードでない = 編成事故防止ロジックを適用しない
         if (!this.currentConfig.safetyMode) {
             return [this.getRandomWeapon(), this.getRandomWeapon()];
         }
 
+        // 短射程の武器をランダムに1つ取得
         const weapons = this.getBlFilteredWeapon();
         const shortRangeWeapons = weapons.filter(w => w.range === 'SHORT');
 
@@ -53,9 +57,12 @@ export class WeaponEntity {
 
         const shortWeapon = chooseRandomly(shortRangeWeapons);
 
+        // 射程が MID または LONG の武器を抽出
+        // どちらかが KILL であるが、両方とも KILL にならないようにする
         const midLongWeapons = weapons.filter(v => v.range === 'MID' || v.range === 'LONG');
         const midLongFiltered = midLongWeapons.filter(v => shortWeapon.role !== 'KILL' ? v.role === 'KILL' : v);
 
+        // シューター以外のカテゴリ被りが発生しないように
         const midLongLcFiltered = midLongFiltered.filter(v => v.lc === 'SHOOTER' || v.lc !== shortWeapon.lc);
         
         if (!midLongLcFiltered.length) {
@@ -68,20 +75,24 @@ export class WeaponEntity {
     }
 
     private getRandomWeaponTrio (): [Weapon, Weapon, Weapon] {
+        // セーフティモードでない = 編成事故防止ロジックを適用しない
         if (!this.currentConfig.safetyMode) {
             return [this.getRandomWeapon(), this.getRandomWeapon(), this.getRandomWeapon()];
         }
 
         const weaponPair = this.getRandomWeaponPair();
 
+        // 持っていない射程
         const weapons = this.getBlFilteredWeapon();
         const ranges = weaponPair.map(v => v.range);
         const filterRange = weapons.filter(v => !ranges.includes(v.range));
 
+        // 持っていない役割 塗り優先
         const roles = weaponPair.map(v => v.role);
         const paintSelected = weaponPair.some(v => v.role === 'PAINT');
         const filterRangeRole = filterRange.filter(v => !paintSelected ? v.role === 'PAINT' : !roles.includes(v.role));
 
+        // シューター以外のカテゴリ被りが発生しないように
         const largeCategories = weaponPair.map(v => v.lc);
         const filterRangeRoleLc = filterRangeRole.filter(v => v.lc === 'SHOOTER' || !largeCategories.includes(v.lc));
 
@@ -95,21 +106,27 @@ export class WeaponEntity {
     }
 
     private getRandomWeaponTeam (): [Weapon, Weapon, Weapon, Weapon] {
+        // セーフティモードでない = 編成事故防止ロジックを適用しない
         if (!this.currentConfig.safetyMode) {
             return [this.getRandomWeapon(), this.getRandomWeapon(), this.getRandomWeapon(), this.getRandomWeapon()];
         }
 
         const weaponTrio = this.getRandomWeaponTrio();
 
+        // 2人目の短射程をチョイス
         const weapons = this.getBlFilteredWeapon();
         const filterRange = weapons.filter(v => v.range === 'SHORT');
 
+        // シューター以外のカテゴリ被りが発生しないように
         const largeCategories = weaponTrio.map(v => v.lc);
         const filterRangeLc = filterRange.filter(v => v.lc === 'SHOOTER' || !largeCategories.includes(v.lc));
 
+        // スモールカテゴリでの被りがないようにする
+        // 例えばボールドマーカーとボールドマーカーネオなど
         const smallCategories = weaponTrio.map(v => v.sc);
         const filterRangeLcSc = filterRangeLc.filter(v => !smallCategories.includes(v.sc));
 
+        // ヘイト役が2枚編成にならないように
         const tankSelected = weaponTrio.some(v => v.role === 'TANK');
         const filterRangeLcScRole = filterRangeLcSc.filter(v => tankSelected ? v.role !== 'TANK' : v);
         const lastWeapon = chooseRandomly(filterRangeLcScRole);

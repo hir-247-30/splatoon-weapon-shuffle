@@ -19,7 +19,7 @@
         "@adapters/*": ["./src/adapters/*"],
         "@common/*": ["./src/common/*"],
         "@const/*": ["./src/const/*"],
-        "@lib/*": ["./src/lib/*"],
+        "@domain/*": ["./src/domain/*"],
         "@services/*": ["./src/services/*"],
       },
     },

@@ -5,14 +5,14 @@ import type { Weapon, Config, ConfigAdapter } from '@common/types';
 import { chooseRandomly, shuffle, assertUndefined } from '@common/functions';
 import type { Result } from 'neverthrow';
 
-class WeaponEntity {
+export class WeaponEntity {
     private currentConfig: Config;
 
     constructor (adapter: ConfigAdapter) {
         this.currentConfig = adapter.getConfig();
     }
 
-    private getWeapons (): readonly Weapon[] {
+    private getAllWeapons (): readonly Weapon[] {
         switch (this.currentConfig.gameVersion) {
             case '2':
                 return WEAPON_V2;
@@ -24,7 +24,7 @@ class WeaponEntity {
     }
 
     private getBlFilteredWeapon (): Weapon[] {
-        const weapons = this.getWeapons();
+        const weapons = this.getAllWeapons();
         return weapons.filter(v => !this.currentConfig.weaponBlacklist.includes(v.name))
                      .filter(v => !this.currentConfig.weaponSmallCategoryBlacklist.includes(v.sc))
                      .filter(v => !this.currentConfig.weaponLargeCategoryBlacklist.includes(v.lc));
@@ -122,7 +122,7 @@ class WeaponEntity {
     }
 
     private getFreeWeapon (): Weapon {
-        const weapons = this.getWeapons();
+        const weapons = this.getAllWeapons();
         const free = weapons.find(v => v.role === 'FREE');
 
         assertUndefined(free);
@@ -130,7 +130,7 @@ class WeaponEntity {
         return free;
     }
 
-    public getWeaponsByNumber (): Result<Weapon[], Error> {
+    public getWeapons (): Result<Weapon[], Error> {
         let weapons: Weapon[];
         switch (this.currentConfig.playerNumber) {
             case 1:
@@ -146,7 +146,7 @@ class WeaponEntity {
                 weapons = this.getRandomWeaponTeam();
                 break;
             default:
-                return err(new Error('無効な番号です。1～4の値を指定してください。'));
+                return err(new Error('プレイヤー数は1～4の値を指定してください。'));
         }
 
         const shuffled = shuffle(weapons);
@@ -154,9 +154,5 @@ class WeaponEntity {
     }
 }
 
-export const getWeaponsByNumber = (adapter: ConfigAdapter): Result<Weapon[], Error> => {
-    const weaponEntity = new WeaponEntity(adapter);
-    return weaponEntity.getWeaponsByNumber();
-};
 
 

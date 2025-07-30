@@ -1,6 +1,6 @@
 import { assertUndefined } from '@common/functions';
 import { Report } from '@common/types';
-import { getWeaponsByNumber } from '@lib/choice';
+import { WeaponEntity } from '@domain/WeaponEntity';
 import { WebConfigAdapter } from '@adapters/web';
 import { buildMessage } from '@services/messageService';
 
@@ -25,7 +25,8 @@ function main (): void {
     // 現状ブラックリストはWeb画面のインタフェースに存在しない
     // チェックボックスは「安全装置を外す」なので、チェックされた場合はsafetyMode=falseにする
     const adapter = new WebConfigAdapter({playerNumber: playerNames.length, gameVersion, safetyMode: !safetyModeUnchecked});
-    const weaponResult = getWeaponsByNumber(adapter);
+    const weaponEntity = new WeaponEntity(adapter);
+    const weaponResult = weaponEntity.getWeapons();
 
     if (weaponResult.isErr()) {
         error('うまく選出できなかったので、リトライしてください！');
